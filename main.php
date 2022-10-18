@@ -16,7 +16,7 @@ session_start();
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin  - Dashboard</title>
+    <title>SB Admin 2 - Dashboard</title>
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -51,7 +51,7 @@ session_start();
             <li class="nav-item active">
                 <a class="nav-link" href="main.php">
                 <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Report</span></a>
+                    <span>Reporte</span></a>
             </li>
 
             <!-- Divider -->
