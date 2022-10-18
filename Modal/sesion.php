@@ -8,8 +8,8 @@ $usuario=$_POST['user'];
 $clave=$_POST['pass'];
 
 $query=("SELECT * FROM acceso
-	WHERE acce_email='$usuario' AND acce_contrasena='$clave'");
-
+	WHERE email='$usuario' AND clave='$clave'");
+	
 $consulta=pg_query($conexion,$query);
 $cantidad=pg_num_rows($consulta);
 

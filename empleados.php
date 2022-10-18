@@ -15,7 +15,7 @@ include('conexion/conexion.php');
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Inventario</title>
+    <title>Empleados</title>
 
     <!-- Custom fonts for this template -->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -398,7 +398,7 @@ include('conexion/conexion.php');
                                     <form method="POST"
                                         class="offset-md-8 navbar-search">
                                         <div class="input-group">
-                                            <input type="text"  class="form-control bg-light border-0 small" placeholder="Buscar Producto"
+                                            <input type="text"  class="form-control bg-light border-0 small" placeholder="Buscar Clientes"
                                                 aria-label="Search" aria-describedby="basic-addon2" id="txtbuscar" name="txtbuscar">
                                             <div class="input-group-append">
                                                 <button   class="btn btn-success" type="submit" id="btnbuscar" name="btnbuscar">
@@ -412,13 +412,13 @@ include('conexion/conexion.php');
 
                                     <thead>
                                         <tr>
-                                            <th>Nro.</th>
                                             <th>Código</th>
-                                            <th>Nombre</th>
-                                            <th>Stok</th>
-                                            <th>Precio Unitario</th>
-                                            <th>Proveedor</th>
-                                            <th>Administrador</th>
+                                            <th>Nombre1</th>
+                                            <th>Nombre2</th>
+                                            <th>Apellido1</th>
+                                            <th>Apellido2</th>
+                                            <th>Cargo</th>
+                                            <th>Telefono</th>
                                             <th>Acción</th>
                                             
                                         </tr>
