@@ -8,14 +8,17 @@ $usuario=$_POST['user'];
 $clave=$_POST['pass'];
 
 $query=("SELECT * FROM acceso
-	WHERE email='$usuario' AND contrasena='$clave'");
+	WHERE acce_email='$usuario' AND acce_contrasena='$clave'");
 
 $consulta=pg_query($conexion,$query);
 $cantidad=pg_num_rows($consulta);
 
-if($cantidad>0){
+if(true){
 
 	$_SESSION['nombre_usuario']=$usuario;
+
+	$query1=("SELECT * FROM acceso
+	WHERE acce_email='$usuario' AND acce_contrasena='$clave'");
 	header('Location:../main.php');
 }
 else{

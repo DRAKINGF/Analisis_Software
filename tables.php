@@ -5,7 +5,7 @@ session_start();
 include('conexion/conexion.php');
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
 
@@ -24,12 +24,12 @@ include('conexion/conexion.php');
         rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="css/sb-admin-2.css" rel="stylesheet">
+   
 
     <!-- Custom styles for this page -->
     <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link href="css/sb-admin-2.css" rel="stylesheet">
    
-
 </head>
 
 <body id="page-top">
@@ -74,9 +74,10 @@ include('conexion/conexion.php');
                 </a>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Custom Components:</h6>
-                        <a class="collapse-item" href="buttons.html">Buttons</a>
-                        <a class="collapse-item" href="cards.html">Cards</a>
+                        <h6 class="collapse-header">Administrar:</h6>
+                        <a class="collapse-item" href="buttons.html">Agregar Emplados</a>
+                        <a class="collapse-item" href="cards.html">Consultar Empleados</a>
+                        <a class="collapse-item" href="cards.html">Actualizar Empleados</a>
                     </div>
                 </div>
             </li>
@@ -336,6 +337,7 @@ include('conexion/conexion.php');
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <!-- <?php //$queryproducto = pg_query($conexion, "SELECT * FROM producto ORDER BY nombre_pro asc"); ?>-->
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small"> <?php $user=$_SESSION['nombre_usuario']; echo "Bienvenido $user"; ?></span>
                                 <img class="img-profile rounded-circle"
                                     src="img/undraw_profile.svg">
@@ -385,23 +387,38 @@ include('conexion/conexion.php');
                             <div class="d-flex justify-content-center">
                             <h6 class="m-0 font-weight-bold text-success">Lista de productos</h6>
                             </div>
-                            
                             <div class="float-sm-right">
                             <button class="btn btn-success submitBtn"  data-toggle="modal" data-target="#modalForm">Añadir producto</button>
                             </div>
                           <!--  <a style="font-weight: normal; font-size: 14px;" onclick="abrirform()">Agregar</a>-->
                         </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                              
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                 <!-- Topbar Search -->
+                                    <form method="POST"
+                                        class="offset-md-8 navbar-search">
+                                        <div class="input-group">
+                                            <input type="text"  class="form-control bg-light border-0 small" placeholder="Buscar Producto"
+                                                aria-label="Search" aria-describedby="basic-addon2" id="txtbuscar" name="txtbuscar">
+                                            <div class="input-group-append">
+                                                <button   class="btn btn-success" type="submit" id="btnbuscar" name="btnbuscar">
+                                                    <i class="fas fa-search fa-sm"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+
+                                <table class="display" id="dataTable" width="100%" cellspacing="0">
+
                                     <thead>
                                         <tr>
-                                            <th>Nro</th>
+                                            <th>Nro.</th>
                                             <th>Código</th>
                                             <th>Nombre</th>
-                                            <th>Precio</th>
-                                            <th>Descripcion</th>
+                                            <th>Stok</th>
+                                            <th>Precio Unitario</th>
+                                            <th>Proveedor</th>
+                                            <th>Administrador</th>
                                             <th>Acción</th>
                                             
                                         </tr>
@@ -410,32 +427,49 @@ include('conexion/conexion.php');
                                     <tbody>
                                     
                                         <?php
-                                        
+                                          $queryproducto = pg_query($conexion, "SELECT * FROM producto ORDER BY nombre_pro asc");
+                                          $queryproveedor = pg_query($conexion, "SELECT * FROM proveedor");
+                                          $queryadministrador = pg_query($conexion, "SELECT * FROM administrador");
                                         
                                         if(isset($_POST['btnbuscar']))
                                            {
                                             $buscar = $_POST['txtbuscar'];
-                                             $queryusuarios = pg_query($conexion, "SELECT cod_producto,nombre,precio,descripcion FROM producto where nombre like '".$buscar."%'");
+                                             $queryproveedor = pg_query($conexion, "SELECT * FROM producto where nombre_pro like '$buscar' or codigo_pro like '$buscar'");
+                                             if(pg_fetch_array($queryproveedor)){
+                                                $queryproveedor = pg_query($conexion, "SELECT * FROM producto where nombre_pro like '$buscar' or codigo_pro like '$buscar'");
+                                            }else{
+                                               //echo "<script> alert('No Se encontro el producto consultado');window.location= 'tables.php' </script>";
+                                            }
+                                             
                                              }
                                              else
                                             {
-                                             $queryusuarios = pg_query($conexion, "SELECT * FROM producto ORDER BY nombre asc");
+                                             $queryproveedor = pg_query($conexion, "SELECT * FROM producto ORDER BY nombre_pro asc");
                                              }
                                         $numerofila = 0;
-                                        while($mostrar = pg_fetch_array($queryusuarios)) 
-                                        {    $numerofila++;    
+                                        while($mostrar = pg_fetch_array($queryproveedor)) 
+                                        {    $numerofila++;
+                                            //print_r($mostrar);
+                                            $is1="".$mostrar['id_proveedor'];
+                                            $nameproveedor = pg_query($conexion, "SELECT nombre_prov FROM proveedor WHERE id_proveedor='".$is1."'");
+                                            $nameproveedor1 = pg_fetch_array($nameproveedor);
+                                            $is2="".$mostrar['id_administrador'];
+                                            $nameadministrador = pg_query($conexion, "SELECT nombre1_ad FROM administrador WHERE id_administrador='".$is2."'");
+                                            $nameadministrador1 = pg_fetch_array($nameadministrador);
                                             echo "<tr>";
-                                            echo "<td>".$numerofila."</td>";
-                                            echo "<td>".$mostrar['cod_producto']."</td>";
-                                            echo "<td>".$mostrar['nombre']."</td>";
-                                            echo "<td>".$mostrar['precio']."</td>";    
-                                            echo "<td>".$mostrar['descripcion']."</td>";  
+                                            echo "<td>".$mostrar['id_producto']."</td>";
+                                            echo "<td>".$mostrar['codigo_pro']."</td>";    
+                                            echo "<td>".$mostrar['nombre_pro']."</td>";  
+                                            echo "<td>".$mostrar['stock_pro']."</td>";
+                                            echo "<td>".$mostrar['preciounit_pro']."</td>";
+                                            echo "<td>".$nameproveedor1['nombre_prov']."</td>";
+                                            echo "<td>".$nameadministrador1['nombre1_ad']."</td>";
                                             ?>
                                             <td>
-                                            <a   class="btn btn-warning btn-circle btn-sm" data-toggle="modal" data-target="#formModal2">
+                                            <a   class="btn btn-warning btn-circle btn-sm" data-toggle="modal" data-target="#formModal2" onClick="guardar('<?php echo $mostrar['id_producto']?>','<?php echo $mostrar['codigo_pro']?>','<?php echo $mostrar['nombre_pro']?>','<?php echo $mostrar['stock_pro']?>','<?php echo $mostrar['preciounit_pro']?>','<?php echo $mostrar['id_administrador']?>','<?php echo $mostrar['id_proveedor']?>')")>
                                             <i class="fas fa-edit"></i>
                                             </a>
-                                            <a class="btn btn-danger btn-circle btn-sm" href="modal/eliminar.php?cod=<?php echo $mostrar['cod_producto'] ?>" onClick="return confirm('¿Estás seguro de eliminar a <?php echo $mostrar['nombre']?>?')">
+                                            <a class="btn btn-danger btn-circle btn-sm" href="modal/eliminar.php?cod=<?php echo $mostrar['codigo_pro'] ?>" onClick="return confirm('¿Estás seguro de eliminar a <?php echo $mostrar['nombre_pro']?>?')">
                                             <i class="fas fa-trash"></i>
                                             </a>
                                           </td>
@@ -449,9 +483,11 @@ include('conexion/conexion.php');
 
                                     </tbody>
                                 </table>
-                         
+                                </div>
                             </div>
                         </div>
+                        
+                    </div>
                     </div>
 
             <!-- Modal -->
@@ -479,16 +515,53 @@ include('conexion/conexion.php');
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="inputNom">Nombre Producto</label>
-                                                    <input type="text" class="form-control" id="inputEmail"  name="txtnombre" placeholder="Ingrese nombre" required=""/>
+                                                    <input type="text" class="form-control" id="inputName"  name="txtnombre" placeholder="Ingrese nombre" required=""/>
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="inputPre">Precio Producto</label>
-                                                    <input type="number" class="form-control" id="inputEmail" name="txtprecio" placeholder="Ingrese Precio" required=""/>
+                                                    <input type="number" class="form-control" id="inputPrice" name="txtprecio" placeholder="Ingrese Precio" required=""/>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="inputMessage">Descripcion</label>
-                                                    <input type="text" class="form-control" id="inputEmail"  name="txtdesc" placeholder="Ingrese descripcion" required=""/>
+                                                    <label for="inputMessage">Stock Producto</label>
+                                                    <input type="text" class="form-control" id="inputStock"  name="txtstock" placeholder="Ingrese stock Producto" required=""/>
                                                 </div>
+                                                <div class="row">
+                                              
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="estu_id">Administrador</label>
+                                                                <select class="form-control" name="id_admin" id="id_admin">
+                                                                    <option value="">Selecionar administrador</option>
+                                                                    <?php
+                                                                        $numerofila = 0;
+                                                                        while($mostrar = pg_fetch_array($queryproveedor)) 
+                                                                        {    
+                                                                            $numerofila++;
+                                                                            echo "<option value=".$mostrar['id_proveedor'].">".ucwords(strtolower($mostrar['nombre_prov']))."</option>";
+                                                                        }   
+                                                                    ?>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="asig_id">Proveedor</label>
+                                                                <select class="form-control" name="id_prov" id="id_prov">
+                                                                    <option value="">Selecionar proveedor</option>
+                                                                    <?php
+                                                                        $numerofila = 0;
+                                                                        while($mostrar2 = pg_fetch_array($queryadministrador)) 
+                                                                        {    
+                                                                            $numerofila++;
+                                                                            echo "<option value=".$mostrar2['id_administrador'].">".ucwords(strtolower($mostrar2['nombre1_ad']))."</option>";
+                                                                        }   
+                                                                    ?>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                                             <input type="submit" class="btn btn-primary submitBtn" name="btnregistrar" value="Registrar" onClick="javascript: return confirm('¿Deseas registrar este producto?');">
@@ -521,33 +594,72 @@ include('conexion/conexion.php');
                                         -->
                             <h4 class="modal-title" id="myModalLabel">Modificar</h4>
                         </div>
-                        
+                                    <?php
+                                                
+                                        
+                                                    $queryproveedor = pg_query($conexion, "SELECT * FROM proveedor");
+                                                    $queryadministrador = pg_query($conexion, "SELECT * FROM administrador");
+
+                                                     ?>
                                         <!-- Modal Body -->
                                         <div class="modal-body">
                                             <p class="statusMsg"></p>
                                             <form name="formulario" method="POST" role="form" action="Modal/modificar.php">
                                                
-                                            
-                                                <div class="form-group">
+                                            <div class="form-group">
                                                     <label for="inputCod">Codigo Producto</label>
-                                             
-                                                    <input type="text" class="form-control"  name="txtcodigo" placeholder="inregese nuevo codigo" required=""/>
+                                                    <input type="text" class="form-control" id="inputCode1" name="txtcodigo" placeholder="Ingresa codigo producto" required=""/>
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="inputNom">Nombre Producto</label>
-                                                    <input type="text" class="form-control"   name="txtnombre" placeholder="Ingrese nuevo nombre" required=""/>
+                                                    <input type="text" class="form-control" id="inputName1"  name="txtnombre" placeholder="Ingrese nombre" required=""/>
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="inputPre">Precio Producto</label>
-                                                    <input type="number" class="form-control"  name="txtprecio" placeholder="Ingrese nuevo Precio" required=""/>
+                                                    <input type="number" class="form-control" id="inputPrice1" name="txtprecio" placeholder="Ingrese Precio" required=""/>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="inputMessage">Descripcion</label>
-                                                    <input type="text" class="form-control"   name="txtdesc" placeholder="Ingrese nueva descripcion" required=""/>
+                                                    <label for="inputMessage">Stock Producto</label>
+                                                    <input type="text" class="form-control" id="inputStock1"  name="txtstock" placeholder="Ingrese stock Producto" required=""/>
                                                 </div>
+                                                <div class="row">
+                                                
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="estu_id">Administrador</label>
+                                                                <select class="form-control" name="id_admin1" id="id_admin1">
+                                                                    <option value="">Selecionar administrador</option>
+                                                                    <?php
+                                                                        $numerofila = 0;
+                                                                        while($mostrar = pg_fetch_array($queryproveedor)) 
+                                                                        {    
+                                                                            $numerofila++;
+                                                                            echo "<option value=".$mostrar['id_proveedor'].">".ucwords(strtolower($mostrar['nombre_prov']))."</option>";
+                                                                        }   
+                                                                    ?>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="asig_id">Proveedor</label>
+                                                                <select class="form-control" name="id_prov1" id="id_prov1">
+                                                                    <option value="">Selecionar proveedor</option>
+                                                                    <?php
+                                                                        $numerofila = 0;
+                                                                        while($mostrar = pg_fetch_array($queryadministrador)) 
+                                                                        {    
+                                                                            $numerofila++;
+                                                                            echo "<option value=".$mostrar['id_administrador'].">".ucwords(strtolower($mostrar['nombre1_ad']))."</option>";
+                                                                        }   
+                                                                    ?>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                                            <input type="submit" class="btn btn-primary submitBtn"  value="Modificar" onClick="javascript: return confirm('¿Deseas modificar este producto?');">
+                                            <input type="submit" class="btn btn-primary submitBtn"  value="Modificar" onClick="guardar()">
                                     
                                         </div>
                                             </form>
@@ -628,9 +740,12 @@ include('conexion/conexion.php');
     <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
     <!-- Page level custom scripts -->
-    <script src="js/demo/datatables-demo.js"></script>
 
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+
+    
+    <script src="js/demo/datatables-demo.js"></script>
 
 
 </body>

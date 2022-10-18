@@ -1,9 +1,9 @@
 <?php
 
 $host='localhost';
-$bd='prueba';
+$bd='postgres';
 $user='postgres';
-$pass='123';
+$pass='1234';
 
 $conexion=pg_connect("host=$host dbname=$bd user=$user password=$pass");
 
