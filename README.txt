@@ -17,5 +17,5 @@ solo tienen que cambiar en el código o cambian la contraseña en pgAdmin para
 la contraseña del codigo fuente
 
 Luego de hacer lo anterior tendrán que ir al esquema public que han creado y crear una 
-una herramienta de querys o queryTools o eso mismo, para poder ingresar las siguientes consultas
-en orden en que aparezcan, de nada por la descripción
+una herramienta de querys o queryTools o eso mismo, para poder ingresar las consultas
+en orden en que aparezcan solo ejecutan todas las consultas, Actualmente en el archivo Restaurar BD (LEER)
