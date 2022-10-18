@@ -51,7 +51,7 @@ session_start();
             <li class="nav-item active">
                 <a class="nav-link" href="main.php">
                 <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Reporte</span></a>
+                    <span>Report</span></a>
             </li>
 
             <!-- Divider -->
