@@ -52,7 +52,6 @@ session_start();
                 <a class="nav-link" href="main.php">
                 <i class="fas fa-fw fa-chart-area"></i>
                     <span>Reporte</span></a>
-
             </li>
 
             <!-- Divider -->
