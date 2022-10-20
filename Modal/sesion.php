@@ -7,18 +7,14 @@ session_start();
 $usuario=$_POST['user'];
 $clave=$_POST['pass'];
 
-$query=("SELECT * FROM acceso
-	WHERE email='$usuario' AND clave='$clave'");
-	
+$query=("SELECT id_empleado FROM acceso INNER JOIN empleado ON acceso.id_acceso=empleado.id_acceso WHERE usuario='$usuario' AND password='$clave'");
+
 $consulta=pg_query($conexion,$query);
 $cantidad=pg_num_rows($consulta);
-
-if(true){
-
-	$_SESSION['nombre_usuario']=$usuario;
-
-	$query1=("SELECT * FROM acceso
-	WHERE acce_email='$usuario' AND acce_contrasena='$clave'");
+var_dump($consulta);
+if($cantidad>0){
+	$id_empleado = pg_fetch_array($consulta);
+	$_SESSION['nombre_usuario']=$id_empleado['id_empleado'];
 	header('Location:../main.php');
 }
 else{

@@ -1,6 +1,22 @@
 <?php
-
 session_start();
+
+require 'conexion/conexion.php';
+
+function consultarUsuarios($idEmpleado){
+    var_dump($idEmpleado);
+	$query=("SELECT * FROM empleado WHERE id_acceso='$idEmpleado'");
+	$consulta=pg_query($conexion,$query);
+	$cantidad=pg_num_rows($consulta);
+    $user="";
+	if($cantidad>0){
+		$nombre = pg_fetch_array($consulta);
+        $user=$nombre['nombre1_emp'];
+        return $user;
+	}else{
+        return $user;
+    }
+}
 
 ?>
 
@@ -339,7 +355,7 @@ session_start();
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"> <?php $user=$_SESSION['nombre_usuario']; echo "Bienvenido $user"; ?></span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"> <?php $user=consultarUsuarios($_SESSION['nombre_usuario']); echo "Bienvenido $user"; ?></span>
                                 <img class="img-profile rounded-circle"
                                     src="img/undraw_profile.svg">
                             </a>
