@@ -434,9 +434,9 @@ include('conexion/conexion.php');
                                         if(isset($_POST['btnbuscar']))
                                            {
                                             $buscar = $_POST['txtbuscar'];
-                                             $queryproveedor = pg_query($conexion, "SELECT * FROM producto where nombre_pro like '$buscar' or codigo_pro like '$buscar'");
+                                             $queryproducto = pg_query($conexion, "SELECT * FROM producto where nombre_pro like '$buscar' or codigo_pro like '$buscar'");
                                              if(pg_fetch_array($queryproveedor)){
-                                                $queryproveedor = pg_query($conexion, "SELECT * FROM producto where nombre_pro like '$buscar' or codigo_pro like '$buscar'");
+                                                $queryproducto = pg_query($conexion, "SELECT * FROM producto where nombre_pro like '$buscar' or codigo_pro like '$buscar'");
                                             }else{
                                                //echo "<script> alert('No Se encontro el producto consultado');window.location= 'tables.php' </script>";
                                             }
@@ -444,26 +444,28 @@ include('conexion/conexion.php');
                                              }
                                              else
                                             {
-                                             $queryproveedor = pg_query($conexion, "SELECT * FROM producto ORDER BY nombre_pro asc");
+                                             $queryproducto = pg_query($conexion, "SELECT * FROM producto ORDER BY nombre_pro asc");
                                              }
                                         $numerofila = 0;
-                                        while($mostrar = pg_fetch_array($queryproveedor)) 
+                                        $i=1;
+                                        while($mostrar = pg_fetch_array($queryproducto)) 
                                         {    $numerofila++;
-                                            //print_r($mostrar);
-                                            $is1="".$mostrar['id_proveedor'];
-                                            $nameproveedor = pg_query($conexion, "SELECT nombre_prov FROM proveedor WHERE id_proveedor='".$is1."'");
+                                            print_r($mostrar);
+                                            $is1="".$mostrar['id_empleado'];
+                                            $nameproveedor = pg_query($conexion, "SELECT nombre_vent FROM proveedor WHERE id_proveedor='".$is1."'");
                                             $nameproveedor1 = pg_fetch_array($nameproveedor);
                                             $is2="".$mostrar['id_administrador'];
                                             $nameadministrador = pg_query($conexion, "SELECT nombre1_ad FROM administrador WHERE id_administrador='".$is2."'");
                                             $nameadministrador1 = pg_fetch_array($nameadministrador);
                                             echo "<tr>";
-                                            echo "<td>".$mostrar['id_producto']."</td>";
+                                            echo "<td>".$i."</td>";
                                             echo "<td>".$mostrar['codigo_pro']."</td>";    
                                             echo "<td>".$mostrar['nombre_pro']."</td>";  
                                             echo "<td>".$mostrar['stock_pro']."</td>";
                                             echo "<td>".$mostrar['preciounit_pro']."</td>";
-                                            echo "<td>".$nameproveedor1['nombre_prov']."</td>";
+                                            echo "<td>".$nameproveedor1['nombre_vent']."</td>";
                                             echo "<td>".$nameadministrador1['nombre1_ad']."</td>";
+                                            $i++;
                                             ?>
                                             <td>
                                             <a   class="btn btn-warning btn-circle btn-sm" data-toggle="modal" data-target="#formModal2" onClick="guardar('<?php echo $mostrar['id_producto']?>','<?php echo $mostrar['codigo_pro']?>','<?php echo $mostrar['nombre_pro']?>','<?php echo $mostrar['stock_pro']?>','<?php echo $mostrar['preciounit_pro']?>','<?php echo $mostrar['id_administrador']?>','<?php echo $mostrar['id_proveedor']?>')")>
