@@ -27,8 +27,10 @@ include('conexion/conexion.php');
    
 
     <!-- Custom styles for this page -->
-    <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
     <link href="css/sb-admin-2.css" rel="stylesheet">
+    <link href="css/util.css" rel="stylesheet">
+    
+    <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
    
 </head>
 
@@ -338,7 +340,7 @@ include('conexion/conexion.php');
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <!-- <?php //$queryproducto = pg_query($conexion, "SELECT * FROM producto ORDER BY nombre_pro asc"); ?>-->
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"> <?php $user=$_SESSION['nombre_usuario']; echo "Bienvenido $user"; ?></span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"> <?php $user=$_SESSION['user_name']; echo "Bienvenido $user"; ?></span>
                                 <img class="img-profile rounded-circle"
                                     src="img/undraw_profile.svg">
                             </a>
@@ -417,8 +419,9 @@ include('conexion/conexion.php');
                                             <th>Nombre</th>
                                             <th>Stok</th>
                                             <th>Precio Unitario</th>
+                                            <th>Descripcion</th>
                                             <th>Proveedor</th>
-                                            <th>Administrador</th>
+                                            <th>Empleado</th>
                                             <th>Acción</th>
                                             
                                         </tr>
@@ -451,24 +454,30 @@ include('conexion/conexion.php');
                                         while($mostrar = pg_fetch_array($queryproducto)) 
                                         {    $numerofila++;
                                             print_r($mostrar);
+                                            echo "<br>";
                                             $is1="".$mostrar['id_empleado'];
-                                            $nameproveedor = pg_query($conexion, "SELECT nombre_vent FROM proveedor WHERE id_proveedor='".$is1."'");
+                                            $nameproveedor = pg_query($conexion, "SELECT * FROM proveedor WHERE id_proveedor='".$is1."'");
                                             $nameproveedor1 = pg_fetch_array($nameproveedor);
-                                            $is2="".$mostrar['id_administrador'];
-                                            $nameadministrador = pg_query($conexion, "SELECT nombre1_ad FROM administrador WHERE id_administrador='".$is2."'");
+                                            print_r($nameproveedor1);
+                                            echo "<br>";
+                                            $is2="".$nameproveedor1['id_proveedor'];
+                                            $nameadministrador = pg_query($conexion, "SELECT * FROM empleado WHERE id_empleado='".$is2."'");
                                             $nameadministrador1 = pg_fetch_array($nameadministrador);
+                                            print_r($nameadministrador1);
+                                            echo "<br>";
                                             echo "<tr>";
                                             echo "<td>".$i."</td>";
                                             echo "<td>".$mostrar['codigo_pro']."</td>";    
                                             echo "<td>".$mostrar['nombre_pro']."</td>";  
                                             echo "<td>".$mostrar['stock_pro']."</td>";
                                             echo "<td>".$mostrar['preciounit_pro']."</td>";
+                                            echo "<td>".$mostrar['descripcion_pro']."</td>";
                                             echo "<td>".$nameproveedor1['nombre_vent']."</td>";
-                                            echo "<td>".$nameadministrador1['nombre1_ad']."</td>";
+                                            echo "<td>".$nameadministrador1['nombre1_emp']."</td>";
                                             $i++;
                                             ?>
                                             <td>
-                                            <a   class="btn btn-warning btn-circle btn-sm" data-toggle="modal" data-target="#formModal2" onClick="guardar('<?php echo $mostrar['id_producto']?>','<?php echo $mostrar['codigo_pro']?>','<?php echo $mostrar['nombre_pro']?>','<?php echo $mostrar['stock_pro']?>','<?php echo $mostrar['preciounit_pro']?>','<?php echo $mostrar['id_administrador']?>','<?php echo $mostrar['id_proveedor']?>')")>
+                                            <a   class="btn btn-warning btn-circle btn-sm" data-toggle="modal" data-target="#formModal2" onClick="guardar('<?php echo $i?>','<?php echo $mostrar['codigo_pro']?>','<?php echo $mostrar['nombre_pro']?>','<?php echo $mostrar['stock_pro']?>','<?php echo $mostrar['preciounit_pro']?>','<?php echo $nameadministrador1['id_empleado']?>','<?php echo $nameproveedor1['id_proveedor']?>')")>
                                             <i class="fas fa-edit"></i>
                                             </a>
                                             <a class="btn btn-danger btn-circle btn-sm" href="modal/eliminar.php?cod=<?php echo $mostrar['codigo_pro'] ?>" onClick="return confirm('¿Estás seguro de eliminar a <?php echo $mostrar['nombre_pro']?>?')">
@@ -555,7 +564,7 @@ include('conexion/conexion.php');
                                                                         while($mostrar2 = pg_fetch_array($queryadministrador)) 
                                                                         {    
                                                                             $numerofila++;
-                                                                            echo "<option value=".$mostrar2['id_administrador'].">".ucwords(strtolower($mostrar2['nombre1_ad']))."</option>";
+                                                                            echo "<option value=".$mostrar2['id_administrador'].">".ucwords(strtolower($mostrar2['nombre1_emp']))."</option>";
                                                                         }   
                                                                     ?>
                                                                 </select>
@@ -652,7 +661,7 @@ include('conexion/conexion.php');
                                                                         while($mostrar = pg_fetch_array($queryadministrador)) 
                                                                         {    
                                                                             $numerofila++;
-                                                                            echo "<option value=".$mostrar['id_administrador'].">".ucwords(strtolower($mostrar['nombre1_ad']))."</option>";
+                                                                            echo "<option value=".$mostrar['id_administrador'].">".ucwords(strtolower($mostrar['nombre1_emp']))."</option>";
                                                                         }   
                                                                     ?>
                                                                 </select>
@@ -736,6 +745,13 @@ include('conexion/conexion.php');
 
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
+
+      <!-- Page level plugins -->
+      <script src="vendor/chart.js/Chart.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="js/demo/chart-area-demo.js"></script>
+    <script src="js/demo/chart-pie-demo.js"></script>
 
     <!-- Page level plugins -->
     <script src="vendor/datatables/jquery.dataTables.min.js"></script>

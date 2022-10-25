@@ -1,10 +1,13 @@
 <?php
 session_start();
 
-require 'conexion/conexion.php';
+$user=consultarUsuarios($_SESSION['nombre_usuario']);
 
 function consultarUsuarios($idEmpleado){
-    var_dump($idEmpleado);
+    include_once 'conexion/conexion.php';
+    //var_dump($idEmpleado);
+    //var_dump($conexion);
+    $idEmpleado=$_SESSION['nombre_usuario'];
 	$query=("SELECT * FROM empleado WHERE id_acceso='$idEmpleado'");
 	$consulta=pg_query($conexion,$query);
 	$cantidad=pg_num_rows($consulta);
@@ -12,6 +15,7 @@ function consultarUsuarios($idEmpleado){
 	if($cantidad>0){
 		$nombre = pg_fetch_array($consulta);
         $user=$nombre['nombre1_emp'];
+        $_SESSION['user_name']=$user;
         return $user;
 	}else{
         return $user;
@@ -355,7 +359,7 @@ function consultarUsuarios($idEmpleado){
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"> <?php $user=consultarUsuarios($_SESSION['nombre_usuario']); echo "Bienvenido $user"; ?></span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"> <?php echo "Bienvenido $user"; ?></span>
                                 <img class="img-profile rounded-circle"
                                     src="img/undraw_profile.svg">
                             </a>
