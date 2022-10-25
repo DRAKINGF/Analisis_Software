@@ -1,6 +1,5 @@
 <?php 
 include_once("../conexion/conexion.php"); 
-include_once("../tcpdf/pdf/factura1.php"); 
 
 
     $cod	= $_POST['txtcodigo'];

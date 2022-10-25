@@ -194,7 +194,7 @@ include_once("componentes/header.php");
                                     <tbody>
                                     
                                         <?php
-                                          $queryproducto = pg_query($conexion, "SELECT * FROM producto ORDER BY nombre_pro asc");
+                                          $queryproducto = pg_query($conexion, "SELECT * FROM inventario ORDER BY codigo_pro asc");
                                           $queryproveedor = pg_query($conexion, "SELECT * FROM proveedor");
                                           $queryadministrador = pg_query($conexion, "SELECT * FROM empleado");
                                         
@@ -210,7 +210,7 @@ include_once("componentes/header.php");
                                              }
                                              else
                                             {
-                                             $queryproducto = pg_query($conexion, "SELECT * FROM producto ORDER BY nombre_pro asc");
+                                             $queryproducto = pg_query($conexion, "SELECT * FROM inventario ORDER BY codigo_pro asc");
                                              }
                                         $numerofila = 0;
                                         $i=1;
@@ -218,7 +218,7 @@ include_once("componentes/header.php");
                                         {    $numerofila++;
                                             // print_r($mostrar);
                                            // echo "<br>";
-                                            $is1="".$mostrar['id_empleado'];
+                                            $is1="".$mostrar['id_proveedor'];
                                             $nameproveedor = pg_query($conexion, "SELECT * FROM proveedor WHERE id_proveedor='".$is1."'");
                                             $nameproveedor1 = pg_fetch_array($nameproveedor);
                                             //print_r($nameproveedor1);
@@ -235,8 +235,8 @@ include_once("componentes/header.php");
                                             echo "<td>".$mostrar['stock_pro']."</td>";
                                             echo "<td>".$mostrar['preciounit_pro']."</td>";
                                             echo "<td>".$mostrar['descripcion_pro']."</td>";
-                                            echo "<td>".$nameproveedor1['nombre_vent']."</td>";
-                                            echo "<td>".$nameadministrador1['nombre1_emp']."</td>";
+                                            echo "<td>".strtoupper($nameproveedor1['nombre_vent'])."</td>";
+                                            echo "<td>".strtoupper($nameadministrador1['nombre1_emp'])."</td>";
                                             $i++;
                                             ?>
                                             <td>
@@ -300,23 +300,6 @@ include_once("componentes/header.php");
                                                     <input type="text" class="form-control" id="inputStock"  name="txtstock" placeholder="Ingrese stock Producto" required=""/>
                                                 </div>
                                                 <div class="row">
-                                              
-                                                        <div class="col-md-6">
-                                                            <div class="form-group">
-                                                                <label for="estu_id">Administrador</label>
-                                                                <select class="form-control" name="id_admin" id="id_admin">
-                                                                    <option value="">Selecionar administrador</option>
-                                                                    <?php
-                                                                        $numerofila = 0;
-                                                                        while($mostrar = pg_fetch_array($queryproveedor)) 
-                                                                        {    
-                                                                            $numerofila++;
-                                                                            echo "<option value=".$mostrar['id_proveedor'].">".ucwords(strtolower($mostrar['nombre_prov']))."</option>";
-                                                                        }   
-                                                                    ?>
-                                                                </select>
-                                                            </div>
-                                                        </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="asig_id">Proveedor</label>
@@ -324,10 +307,27 @@ include_once("componentes/header.php");
                                                                     <option value="">Selecionar proveedor</option>
                                                                     <?php
                                                                         $numerofila = 0;
-                                                                        while($mostrar2 = pg_fetch_array($queryadministrador)) 
+                                                                        while($mostrar2 = pg_fetch_array($queryproveedor)) 
                                                                         {    
                                                                             $numerofila++;
-                                                                            echo "<option value=".$mostrar2['id_administrador'].">".ucwords(strtolower($mostrar2['nombre1_emp']))."</option>";
+                                                                            echo "<option value=".$mostrar2['id_proveedor'].">".strtoupper(strtolower($mostrar2['nombre_vent']))."</option>";
+                                                                        }   
+                                                                    ?>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                              
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="estu_id">Empleado</label>
+                                                                <select class="form-control" name="id_admin" id="id_admin">
+                                                                    <option value="">Selecionar Empleado</option>
+                                                                    <?php
+                                                                        $numerofila = 0;
+                                                                        while($mostrar = pg_fetch_array($queryadministrador)) 
+                                                                        {    
+                                                                            $numerofila++;
+                                                                            echo "<option value=".$mostrar['id_empleado'].">".strtoupper(strtolower($mostrar['nombre1_emp']))."</option>";
                                                                         }   
                                                                     ?>
                                                                 </select>
