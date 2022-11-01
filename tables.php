@@ -4,6 +4,7 @@ session_start();
 
 include_once('conexion/conexion.php');
 include_once("componentes/header.php");
+$cargo=$_SESSION['user_cargo']; 
 ?>
 <body id="page-top">
 
@@ -38,23 +39,29 @@ include_once("componentes/header.php");
                 Interface
             </div>
 
+            <?php 
+            if($cargo=="1")
+            {
+            ?>
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                     aria-expanded="true" aria-controls="collapseTwo">
                     <i class="fa fa-user" aria-hidden="true"></i>
-                    <span>Empleado</span>
+                    <span>Usuarios</span>
                 </a>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Administrar:</h6>
-                        <a class="collapse-item" href="./empleados.php">Agregar Emplados</a>
-                        <a class="collapse-item" href="cards.html">Consultar Empleados</a>
-                        <a class="collapse-item" href="cards.html">Actualizar Empleados</a>
+                        <a class="collapse-item" href="./empleados.php">Agregar Usuarios</a>
+                        <a class="collapse-item" href="cards.html">Consultar Usuarios</a>
+                        <a class="collapse-item" href="cards.html">Actualizar Usuarios</a>
                     </div>
                 </div>
             </li>
-
+            <?php
+        }
+        ?>
             <!-- Nav Item - Utilities Collapse Menu -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
@@ -194,15 +201,15 @@ include_once("componentes/header.php");
                                     <tbody>
                                     
                                         <?php
-                                          $queryproducto = pg_query($conexion, "SELECT * FROM inventario ORDER BY codigo_pro asc");
-                                          $queryproveedor = pg_query($conexion, "SELECT * FROM proveedor");
-                                          $queryadministrador = pg_query($conexion, "SELECT * FROM empleado");
+                                          $queryproducto = pg_query($conexion, "SELECT * FROM productos ORDER BY codigo_prod asc");
+                                          $queryproveedor = pg_query($conexion, "SELECT * FROM proveedores");
+                                          $queryadministrador = pg_query($conexion, "SELECT * FROM usuarios");
                                         
                                         if(isset($_POST['btnbuscar']))
                                            {
                                             $buscar = $_POST['txtbuscar'];
                                              if(pg_fetch_array($queryproveedor)){
-                                                $queryproducto = pg_query($conexion, "SELECT * FROM producto where nombre_pro like '$buscar' or codigo_pro like '$buscar'");
+                                                $queryproducto = pg_query($conexion, "SELECT * FROM productos where nombre_prod like '$buscar' or codigo_prod like '$buscar'");
                                             }else{
                                                //echo "<script> alert('No Se encontro el producto consultado');window.location= 'tables.php' </script>";
                                             }
@@ -210,7 +217,7 @@ include_once("componentes/header.php");
                                              }
                                              else
                                             {
-                                             $queryproducto = pg_query($conexion, "SELECT * FROM inventario ORDER BY codigo_pro asc");
+                                             $queryproducto = pg_query($conexion, "SELECT * FROM productos ORDER BY codigo_prod asc");
                                              }
                                         $numerofila = 0;
                                         $i=1;

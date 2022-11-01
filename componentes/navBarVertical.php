@@ -1,3 +1,8 @@
+<?php 
+$cargo=$_SESSION['user_cargo']; 
+
+?>
+
 <body id="page-top">
 
     <!-- Page Wrapper -->
@@ -31,23 +36,30 @@
                 Interface
             </div>
 
+            <?php 
+            if($cargo=="1")
+            {
+            ?>
+
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                     aria-expanded="true" aria-controls="collapseTwo">
                     <i class="fa fa-user" aria-hidden="true"></i>
-                    <span>Empleado</span>
+                    <span>Usuarios</span>
                 </a>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Administrar:</h6>
-                        <a class="collapse-item" href="buttons.html">Agregar Emplados</a>
-                        <a class="collapse-item" href="cards.html">Consultar Empleados</a>
-                        <a class="collapse-item" href="cards.html">Actualizar Empleados</a>
+                        <a class="collapse-item" href="buttons.html">Agregar Usuarios</a>
+                        <a class="collapse-item" href="cards.html">Consultar Usuarios</a>
+                        <a class="collapse-item" href="cards.html">Actualizar Usuarios</a>
                     </div>
                 </div>
             </li>
-
+            <?php
+        }
+        ?>
             <!-- Nav Item - Utilities Collapse Menu -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"

@@ -6,7 +6,7 @@ include_once("componentes/header.php");
 include_once("componentes/navBarVertical.php"); 
 include_once("componentes/navBar.php");
 
-$queryproducto = pg_query($conexion, "SELECT Count(*) FROM producto");
+$queryproducto = pg_query($conexion, "SELECT Count(*) FROM productos");
 
 if($queryproductoq=pg_fetch_array($queryproducto)){
     $count = $queryproductoq["count"];
