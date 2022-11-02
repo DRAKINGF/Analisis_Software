@@ -209,7 +209,7 @@ $cargo=$_SESSION['user_cargo'];
                                            {
                                             $buscar = $_POST['txtbuscar'];
                                              if(pg_fetch_array($queryproveedor)){
-                                                $queryproducto = pg_query($conexion, "SELECT * FROM productos where nombre_prod like '$buscar' or codigo_prod like '$buscar'");
+                                                $queryproducto = pg_query($conexion, "SELECT * FROM productos INNER JOIN registrar_productos ON registrar_productos.id_producto=productos.id_producto where nombre_prod like '$buscar' or codigo_prod like '$buscar'");
                                             }else{
                                                //echo "<script> alert('No Se encontro el producto consultado');window.location= 'tables.php' </script>";
                                             }
@@ -217,40 +217,41 @@ $cargo=$_SESSION['user_cargo'];
                                              }
                                              else
                                             {
-                                             $queryproducto = pg_query($conexion, "SELECT * FROM productos ORDER BY codigo_prod asc");
+                                             $queryproducto = pg_query($conexion, "SELECT * FROM productos INNER JOIN registrar_productos ON registrar_productos.id_producto=productos.id_producto
+                                             INNER JOIN usuarios ON registrar_productos.id_usuario=usuarios.id_usuario
+                                             INNER JOIN proveedores ON registrar_productos.id_proveedor=proveedores.id_proveedor
+                                              ORDER BY codigo_prod asc");
                                              }
                                         $numerofila = 0;
                                         $i=1;
                                         while($mostrar = pg_fetch_array($queryproducto)) 
                                         {    $numerofila++;
-                                            // print_r($mostrar);
+                                            print_r($mostrar);
                                            // echo "<br>";
-                                            $is1="".$mostrar['id_proveedor'];
-                                            $nameproveedor = pg_query($conexion, "SELECT * FROM proveedor WHERE id_proveedor='".$is1."'");
-                                            $nameproveedor1 = pg_fetch_array($nameproveedor);
+                                            $is1="".$mostrar['24'];
+                                            $nameproveedor1 = $mostrar['24'];
                                             //print_r($nameproveedor1);
                                             //echo "<br>";
-                                            $is2="".$nameproveedor1['id_proveedor'];
-                                            $nameadministrador = pg_query($conexion, "SELECT * FROM empleado WHERE id_empleado='".$is2."'");
-                                            $nameadministrador1 = pg_fetch_array($nameadministrador);
+                                            $is2="".$mostrar['nombre1_usu'];
+                                            $nameadministrador1 = $mostrar['nombre1_usu'];
                                             //print_r($nameadministrador1);
                                             //echo "<br>";
                                             echo "<tr>";
                                             echo "<td>".$i."</td>";
-                                            echo "<td>".$mostrar['codigo_pro']."</td>";    
-                                            echo "<td>".$mostrar['nombre_pro']."</td>";  
-                                            echo "<td>".$mostrar['stock_pro']."</td>";
-                                            echo "<td>".$mostrar['preciounit_pro']."</td>";
-                                            echo "<td>".$mostrar['descripcion_pro']."</td>";
-                                            echo "<td>".strtoupper($nameproveedor1['nombre_vent'])."</td>";
-                                            echo "<td>".strtoupper($nameadministrador1['nombre1_emp'])."</td>";
+                                            echo "<td>".$mostrar['codigo_prod']."</td>";    
+                                            echo "<td>".$mostrar['nombre_prod']."</td>";  
+                                            echo "<td>".$mostrar['cantidad_prod']."</td>";
+                                            echo "<td>".$mostrar['precio_prod']."</td>";
+                                            echo "<td>".$mostrar['descripcion_prod']."</td>";
+                                            echo "<td>".strtoupper($nameproveedor1)."</td>";
+                                            echo "<td>".strtoupper($nameadministrador1)."</td>";
                                             $i++;
                                             ?>
                                             <td>
-                                            <a   class="btn btn-warning btn-circle btn-sm" data-toggle="modal" data-target="#formModal2" onClick="guardar('<?php echo $i?>','<?php echo $mostrar['codigo_pro']?>','<?php echo $mostrar['nombre_pro']?>','<?php echo $mostrar['stock_pro']?>','<?php echo $mostrar['preciounit_pro']?>','<?php echo $nameadministrador1['id_empleado']?>','<?php echo $nameproveedor1['id_proveedor']?>')")>
+                                            <a   class="btn btn-warning btn-circle btn-sm" data-toggle="modal" data-target="#formModal2" onClick="")>
                                             <i class="fas fa-edit"></i>
                                             </a>
-                                            <a class="btn btn-danger btn-circle btn-sm" href="modal/eliminar.php?cod=<?php echo $mostrar['codigo_pro'] ?>" onClick="return confirm('¿Estás seguro de eliminar a <?php echo $mostrar['nombre_pro']?>?')">
+                                            <a class="btn btn-danger btn-circle btn-sm" href="modal/eliminar.php?cod=<?php echo $mostrar['codigo_prod'] ?>" onClick="return confirm('¿Estás seguro de eliminar a <?php echo $mostrar['nombre_prod']?>?')">
                                             <i class="fas fa-trash"></i>
                                             </a>
                                           </td>
@@ -305,6 +306,10 @@ $cargo=$_SESSION['user_cargo'];
                                                 <div class="form-group">
                                                     <label for="inputMessage">Stock Producto</label>
                                                     <input type="text" class="form-control" id="inputStock"  name="txtstock" placeholder="Ingrese stock Producto" required=""/>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="inputMessage">Descripcion Producto</label>
+                                                    <input type="text" class="form-control" id="inputDescripcion"  name="txtdescripcion" placeholder="Ingrese descripcion Producto" required=""/>
                                                 </div>
                                                 <div class="row">
                                                         <div class="col-md-6">
