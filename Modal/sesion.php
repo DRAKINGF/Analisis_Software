@@ -7,7 +7,7 @@ session_start();
 $usuario=$_POST['user'];
 $clave=$_POST['pass'];
 
-$query=("SELECT * FROM usuarios INNER JOIN acceso ON acceso.id_usuario=usuarios.id_usuario WHERE usuarios.documento_usu='$usuario' AND clave_usu='$clave'");
+$query=("SELECT * FROM usuarios INNER JOIN acceso ON acceso.id_usuario=usuarios.id_usuario WHERE usuarios.documento_usu='$usuario' AND usuarios.clave_usu='$clave'");
 //$query=("SELECT * FROM acceso WHERE usuario='$usuario' AND password='$clave'");
 
 $consulta=pg_query($conexion,$query);
