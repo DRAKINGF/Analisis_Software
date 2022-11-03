@@ -3,7 +3,7 @@
 $host='localhost';
 $bd='postgres';
 $user='postgres';
-$pass='1234';
+$pass='123';
 
 $conexion=pg_connect("host=$host dbname=$bd user=$user password=$pass");
 if (!$conexion) {

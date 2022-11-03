@@ -14,7 +14,7 @@ include_once("../conexion/conexion.php");
     
     $nombreCom=$nombre1." ".$apellido1;
 
-print_r($_POST);
+//print_r($_POST);
 
     $query=("SELECT * FROM usuarios
     WHERE documento_usu='$documento'");
@@ -27,7 +27,10 @@ print_r($_POST);
     {
         $queryregistrar = "INSERT INTO usuarios(id_cargo,documento_usu,nombre1_usu,nombre2_usu,apellido1_usu,apellido2_usu,telefono_usu,clave_usu,estado_usu) VALUES('$idCargo','$documento','$nombre1','$nombre2','$apellido1','$apellido2','$telefono','$clave','$estado')";
         $consulta=pg_query($conexion,$queryregistrar);
-        echo "<script> window.location= '../empleados2.php' </script>";
+
+      /*  $queryconsulta= "SELECT id_usuario FROM usuarios where documento_usu='$documento' ORDER BY id_usuario DESC LIMIT 1";
+        $consulta3=pg_query($conexion,$queryconsulta);*/
+       echo "<script> window.location= '../empleados2.php' </script>";
 
     }else{	
         $nombreCom = $consulta2['nombre1_usu'];

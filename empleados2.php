@@ -16,10 +16,10 @@ $cargo=$_SESSION['user_cargo'];
                 <div class="card shadow mb-4">
                         <div class="card-header py-3">
                             <div class="d-flex justify-content-center">
-                            <h6 class="m-0 font-weight-bold text-success">Lista de productos</h6>
+                            <h6 class="m-0 font-weight-bold text-success">Lista de empleados</h6>
                             </div>
                             <div class="float-sm-right">
-                            <button type="button" class="btn btn-success submitBtn" data-toggle="modal" data-target="#exampleModalLong">modal usuario</button>
+                            <button type="button" class="btn btn-success submitBtn" data-toggle="modal" data-target="#exampleModalLong">Añadir empleado</button>
                             </div>
                           <!--  <a style="font-weight: normal; font-size: 14px;" onclick="abrirform()">Agregar</a>-->
                         </div>
@@ -28,14 +28,27 @@ $cargo=$_SESSION['user_cargo'];
                                 <div class="card-body">
                                     <div class="table-responsive">
                                  <!-- Topbar Search -->
+                                 <form method="POST"
+                                        class="offset-md-8 navbar-search">
+                                        <div class="input-group">
+                                            <input type="text"  class="form-control bg-light border-0 small" placeholder="Buscar Empleado"
+                                                aria-label="Search" aria-describedby="basic-addon2" id="txtbuscar" name="txtbuscar">
+                                            <div class="input-group-append">
+                                                <button   class="btn btn-success" type="submit" id="btnbuscar" name="btnbuscar">
+                                                    <i class="fas fa-search fa-sm"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+ 
 
 
-                                <table class="display" id="dataTable" width="100%" cellspacing="0">
+                                <table class="display" id="dataTable2" width="100%" cellspacing="0">
 
                                     <thead>
                                         <tr>
                                             <th>Nro.</th>
-                                            <th>doucumento</th>
+                                            <th>documento</th>
                                             <th>Nombre</th>
                                             <th>Telefono</th>
                                             <th>Estado</th>
@@ -95,7 +108,7 @@ $cargo=$_SESSION['user_cargo'];
                                 <form action="Modal/modificarEmp.php" method="POST" role="form">
                                 <div class="form-group">
                                         <label for="inputCod">Documento</label>
-                                        <input type="text" class="form-control" value="<?php echo $mostrar['documento_usu']; ?>" name="txtdoc" placeholder="Ingresa codigo producto" required=""/>
+                                        <input type="integer" class="form-control" value="<?php echo $mostrar['documento_usu']; ?>" name="txtdoc" placeholder="Ingresa codigo producto" readonly required=""/>
                                         <input type="hidden" class="form-control"  name="id_cargo" value="2"/>
 
                                     </div>
@@ -135,9 +148,9 @@ $cargo=$_SESSION['user_cargo'];
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                                <input type="submit" class="btn btn-primary submitBtn" name="btnregistrar" value="Registrar" onClick="javascript: return confirm('¿Deseas registrar este empleado?');">
-                                       </form>
+                                <input type="submit" class="btn btn-primary submitBtn" name="btnregistrar" value="Registrar" onClick="javascript: return confirm('¿Deseas registrar este empleado?');">    
                             </div>
+                            </form>
                             </div>
                         </div>
                         </div>
@@ -176,7 +189,7 @@ $cargo=$_SESSION['user_cargo'];
                                 <form action="Modal/agregarEmp.php" method="POST" role="form">
                                     <div class="form-group">
                                         <label for="inputCod">Documento</label>
-                                        <input type="text" class="form-control" value=""  name="txtdoc" placeholder="Ingresa codigo producto" required=""/>
+                                        <input type="number" class="form-control" value=""  name="txtdoc" placeholder="Ingresa codigo producto"  required=""/>
                                         <input type="hidden" class="form-control"  name="id_cargo" value="2"/>
 
                                     </div>
