@@ -48,29 +48,59 @@ $cargo=$_SESSION['user_cargo'];
                                     <tbody>
                                     
                                     <?php
-                                          $queryempleado = pg_query($conexion, "SELECT * FROM usuarios where id_cargo='2' ");
+                                          $queryproducto = pg_query($conexion, "SELECT * FROM productos ORDER BY codigo_prod asc");
+                                          $queryproveedor = pg_query($conexion, "SELECT * FROM proveedores");
+                                          $queryadministrador = pg_query($conexion, "SELECT * FROM usuarios");
                                         
-
+                                        if(isset($_POST['btnbuscar']))
+                                           {
+                                            $buscar = $_POST['txtbuscar'];
+                                             if(pg_fetch_array($queryproveedor)){
+                                                $queryproducto = pg_query($conexion, "SELECT * FROM productos INNER JOIN registrar_productos ON registrar_productos.id_producto=productos.id_producto where nombre_prod like '$buscar' or codigo_prod like '$buscar'");
+                                            }else{
+                                               //echo "<script> alert('No Se encontro el producto consultado');window.location= 'tables.php' </script>";
+                                            }
+                                             
+                                             }
+                                             else
+                                            {
+                                             $queryproducto = pg_query($conexion, "SELECT * FROM productos INNER JOIN registrar_productos ON registrar_productos.id_producto=productos.id_producto
+                                             INNER JOIN usuarios ON registrar_productos.id_usuario=usuarios.id_usuario
+                                             INNER JOIN proveedores ON registrar_productos.id_proveedor=proveedores.id_proveedor
+                                              ORDER BY codigo_prod asc");
+                                             }
                                         $numerofila = 0;
                                         $i=1;
-                                        while($mostrar = pg_fetch_array($queryempleado)) 
+                                        while($mostrar = pg_fetch_array($queryproducto)) 
                                         {    $numerofila++;
-                                             $nombreCom=$mostrar['nombre1_usu']." ".$mostrar['apellido1_usu'];
-
+                                            print_r($mostrar);
+                                           // echo "<br>";
+                                            $is1="".$mostrar['24'];
+                                            $nameproveedor1 = $mostrar['24'];
+                                            //print_r($nameproveedor1);
+                                            //echo "<br>";
+                                            $is2="".$mostrar['nombre1_usu'];
+                                            $nameadministrador1 = $mostrar['nombre1_usu'];
+                                            //print_r($nameadministrador1);
+                                            //echo "<br>";
                                             echo "<tr>";
                                             echo "<td>".$i."</td>";
-                                            echo "<td>".$mostrar['documento_usu']."</td>";    
-                                            echo "<td>".$nombreCom."</td>";  
-                                            echo "<td>".$mostrar['telefono_usu']."</td>";
-                                            echo "<td>".$mostrar['estado_usu']."</td>";
-                         
-
+                                            echo "<td>".$mostrar['codigo_prod']."</td>";    
+                                            echo "<td>".$mostrar['nombre_prod']."</td>";  
+                                            echo "<td>".$mostrar['cantidad_prod']."</td>";
+                                            echo "<td>".$mostrar['precio_prod']."</td>";
+                                            echo "<td>".$mostrar['descripcion_prod']."</td>";
+                                            echo "<td>".strtoupper($nameproveedor1)."</td>";
+                                            echo "<td>".strtoupper($nameadministrador1)."</td>";
                                             $i++;
                                             ?>
                                             <td>
                                             <a   class="btn btn-warning btn-circle btn-sm" data-toggle="modal" data-target="#formActulizar" onClick="")>
                                             <i class="fas fa-edit"></i>
- 
+                                            </a>
+                                            <a class="btn btn-danger btn-circle btn-sm" href="modal/eliminar.php?cod=<?php echo $mostrar['codigo_prod'] ?>" onClick="return confirm('¿Estás seguro de eliminar a <?php echo $mostrar['nombre_prod']?>?')">
+                                            <i class="fas fa-trash"></i>
+                                            </a>
                                           </td>
                                           <?php
                                             /*echo "<td style='width:26%'><a data-toggle=modal data-target=#formModal2 cod=$mostrar[cod_producto]\">dd</a> | <a href=\"modal/eliminar.php?cod=$mostrar[cod_producto]\" onClick=\"return confirm('¿Estás seguro de eliminar a $mostrar[nombre]?')\">Eliminar</a></td>"; */          
