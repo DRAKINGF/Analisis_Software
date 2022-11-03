@@ -46,7 +46,7 @@ $cargo=$_SESSION['user_cargo'];
                                     </thead>
 
                                     <tbody>
-                                    
+                                   
                                     <?php
                                           $queryempleado = pg_query($conexion, "SELECT * FROM usuarios where id_cargo='2' ");
                                         
@@ -56,23 +56,96 @@ $cargo=$_SESSION['user_cargo'];
                                         while($mostrar = pg_fetch_array($queryempleado)) 
                                         {    $numerofila++;
                                              $nombreCom=$mostrar['nombre1_usu']." ".$mostrar['apellido1_usu'];
-
-                                            echo "<tr>";
-                                            echo "<td>".$i."</td>";
-                                            echo "<td>".$mostrar['documento_usu']."</td>";    
-                                            echo "<td>".$nombreCom."</td>";  
-                                            echo "<td>".$mostrar['telefono_usu']."</td>";
-                                            echo "<td>".$mostrar['estado_usu']."</td>";
-                         
-
-                                            $i++;
-                                            ?>
+                                             ?>
+                                             <tr>
+                                             <td><?php echo $numerofila; ?></td>
+                                            <td><?php echo $mostrar['documento_usu']; ?></td>
+                                            <td><?php echo $nombreCom; ?></td>
+                                            <td><?php echo $mostrar['telefono_usu']; ?></td>
+                                            <td><?php echo $mostrar['estado_usu']; ?></td>
+        
+                                            <td> 
+                                                
+                                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editChildresn<?php echo $mostrar['documento_usu']; ?>">
+                                                <i class="fas fa-edit"></i>
+                                                </button>
+                                                
+                                            </td>
+                                            </tr>
+                                            <!--
                                             <td>
                                             <a   class="btn btn-warning btn-circle btn-sm" data-toggle="modal" data-target="#formActulizar" onClick="")>
                                             <i class="fas fa-edit"></i>
  
                                           </td>
+                                        -->
+                                           <!-- Modal actualizar empleado-->
+                                           
+                    <div class="modal fade" id="editChildresn<?php echo $mostrar['documento_usu']; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLongTitle">Actualizar</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                            <p class="statusMsg"></p>
+                                <form action="Modal/modificarEmp.php" method="POST" role="form">
+                                <div class="form-group">
+                                        <label for="inputCod">Documento</label>
+                                        <input type="text" class="form-control" value="<?php echo $mostrar['documento_usu']; ?>" name="txtdoc" placeholder="Ingresa codigo producto" required=""/>
+                                        <input type="hidden" class="form-control"  name="id_cargo" value="2"/>
+
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputNom">Primer nombre</label>
+                                        <input type="text" class="form-control"  value="<?php echo $mostrar['nombre1_usu']; ?>" name="nombre1" placeholder="Ingrese primer nombre" required=""/>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputNom">Segundo nombre</label>
+                                        <input type="text" class="form-control"   value="<?php echo $mostrar['nombre2_usu']; ?>" name="nombre2" placeholder="Ingrese segundo nombre" required=""/>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputNom">Primer apellido</label>
+                                        <input type="text" class="form-control"  value="<?php echo $mostrar['apellido1_usu']; ?>" name="apellido1" placeholder="Ingrese primer apellido" required=""/>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputNom">Segundo apellido</label>
+                                        <input type="text" class="form-control"  value="<?php echo $mostrar['apellido2_usu']; ?>" name="apellido2" placeholder="Ingrese segundo apellido" required=""/>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputPre">Telefono</label>
+                                        <input type="number" class="form-control"  value="<?php echo $mostrar['telefono_usu']; ?>" name="telefono" placeholder="Ingrese telefono" required=""/>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputMessage">Contraseña</label>
+                                        <input type="password" class="form-control"  value="<?php echo $mostrar['clave_usu']; ?>" name="pass" placeholder="Ingrese contraseña" required=""/>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="asig_id">estado</label>
+                                        <select class="form-control" name="estado" id="id_prov">
+                                            <option value="SI">SI</option>
+                                            <option value="NO">NO</option>
+                                            
+                                        </select>
+                                    </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                <input type="submit" class="btn btn-primary submitBtn" name="btnregistrar" value="Registrar" onClick="javascript: return confirm('¿Deseas registrar este empleado?');">
+                                       </form>
+                            </div>
+                            </div>
+                        </div>
+                        </div>
+                        <!-- finModal -->
                                           <?php
+
+
+
                                             /*echo "<td style='width:26%'><a data-toggle=modal data-target=#formModal2 cod=$mostrar[cod_producto]\">dd</a> | <a href=\"modal/eliminar.php?cod=$mostrar[cod_producto]\" onClick=\"return confirm('¿Estás seguro de eliminar a $mostrar[nombre]?')\">Eliminar</a></td>"; */          
                                             
                                         }
@@ -103,7 +176,7 @@ $cargo=$_SESSION['user_cargo'];
                                 <form action="Modal/agregarEmp.php" method="POST" role="form">
                                     <div class="form-group">
                                         <label for="inputCod">Documento</label>
-                                        <input type="text" class="form-control"  name="txtdoc" placeholder="Ingresa codigo producto" required=""/>
+                                        <input type="text" class="form-control" value=""  name="txtdoc" placeholder="Ingresa codigo producto" required=""/>
                                         <input type="hidden" class="form-control"  name="id_cargo" value="2"/>
 
                                     </div>
@@ -153,68 +226,7 @@ $cargo=$_SESSION['user_cargo'];
                         </div>
                         <!-- finModal -->
 
-                    <!-- Modal actualizar empleado-->
-                    <div class="modal fade" id="formActulizar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLongTitle">Actualizar</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                            <p class="statusMsg"></p>
-                                <form action="Modal/agregar.php" method="POST" role="form">
-                                <div class="form-group">
-                                        <label for="inputCod">Documento</label>
-                                        <input type="text" class="form-control"  name="txtdoc" placeholder="Ingresa codigo producto" required=""/>
-                                        <input type="hidden" class="form-control"  name="id_cargo" value="2"/>
-
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="inputNom">Primer nombre</label>
-                                        <input type="text" class="form-control"  name="nombre1" placeholder="Ingrese primer nombre" required=""/>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="inputNom">Segundo nombre</label>
-                                        <input type="text" class="form-control"   name="nombre2" placeholder="Ingrese segundo nombre" required=""/>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="inputNom">Primer apellido</label>
-                                        <input type="text" class="form-control"  name="apellido1" placeholder="Ingrese primer apellido" required=""/>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="inputNom">Segundo apellido</label>
-                                        <input type="text" class="form-control"  name="apellido2" placeholder="Ingrese segundo apellido" required=""/>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="inputPre">Telefono</label>
-                                        <input type="number" class="form-control"  name="telefono" placeholder="Ingrese telefono" required=""/>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="inputMessage">Contraseña</label>
-                                        <input type="password" class="form-control"  name="pass" placeholder="Ingrese contraseña" required=""/>
-                                    </div>
-                                    
-                                    <div class="form-group">
-                                        <label for="asig_id">estado</label>
-                                        <select class="form-control" name="estado" id="id_prov">
-                                            <option value="SI">SI</option>
-                                            <option value="NO">NO</option>
-                                            
-                                        </select>
-                                    </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                                <input type="submit" class="btn btn-primary submitBtn" name="btnregistrar" value="Registrar" onClick="javascript: return confirm('¿Deseas registrar este empleado?');">
-                                       </form>
-                            </div>
-                            </div>
-                        </div>
-                        </div>
-                        <!-- finModal -->
+                   
 
             </div>
             <!-- End of Main Content -->
