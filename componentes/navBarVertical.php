@@ -62,16 +62,16 @@ $cargo=$_SESSION['user_cargo'];
         ?>
             <!-- Nav Item - Utilities Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
+                <a class="nav-link collapsed" href="emplados2.php" data-toggle="collapse" data-target="#collapseUtilities"
                     aria-expanded="true" aria-controls="collapseUtilities">
                     <i class="fa fa-users" aria-hidden="true"></i>
-                    <span>Clientes</span>
+                    <span>Empleados</span>
                 </a>
                 <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Administrar:</h6>
-                        <a class="collapse-item" href="buttons.html">Agregar Clientes</a>
+                        <a class="collapse-item" href="emplados2.php">Agregar Clientes</a>
                         <a class="collapse-item" href="cards.html">Consultar Clientes</a>
                         <a class="collapse-item" href="cards.html">Actualizar Clientes</a>
                     </div>
@@ -118,7 +118,7 @@ $cargo=$_SESSION['user_cargo'];
 
             <!-- Nav Item - Tables -->
             <li class="nav-item">
-                <a class="nav-link" href="tables.php">
+                <a class="nav-link" href="tables2.php">
                 <i class="fa fa-cubes" aria-hidden="true"></i>
                     <span>Inventario</span></a>
             </li>

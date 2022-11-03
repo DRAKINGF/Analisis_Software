@@ -180,7 +180,7 @@ $cargo=$_SESSION['user_cargo'];
                                             </div>
                                         </div>
                                     </form>
-
+ 
                                 <table class="display" id="dataTable" width="100%" cellspacing="0">
 
                                     <thead>
@@ -253,7 +253,7 @@ $cargo=$_SESSION['user_cargo'];
                                             $i++;
                                             ?>
                                             <td>
-                                            <a   class="btn btn-warning btn-circle btn-sm" data-toggle="modal" data-target="#formModal2" onClick="")>
+                                            <a   class="btn btn-warning btn-circle btn-sm" data-toggle="modal" data-target="#formActulizar" onClick="")>
                                             <i class="fas fa-edit"></i>
                                             </a>
                                             <a class="btn btn-danger btn-circle btn-sm" href="modal/eliminar.php?cod=<?php echo $mostrar['codigo_prod'] ?>" onClick="return confirm('¿Estás seguro de eliminar a <?php echo $mostrar['nombre_prod']?>?')">
