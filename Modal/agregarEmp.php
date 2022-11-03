@@ -14,15 +14,32 @@ include_once("../conexion/conexion.php");
     
     $nombreCom=$nombre1." ".$apellido1;
 
+print_r($_POST);
+
     $query=("SELECT * FROM usuarios
     WHERE documento_usu='$documento'");
 
-
     $consulta=pg_query($conexion,$query);
     $cantidad=pg_num_rows($consulta);
+    $consulta2 = pg_fetch_array($consulta);
+    //print_r($consulta2);
+    if ($cantidad == 0)
+    {
+        $queryregistrar = "INSERT INTO usuarios(id_cargo,documento_usu,nombre1_usu,nombre2_usu,apellido1_usu,apellido2_usu,telefono_usu,clave_usu,estado_usu) VALUES('$idCargo','$documento','$nombre1','$nombre2','$apellido1','$apellido2','$telefono','$clave','$estado')";
+        $consulta=pg_query($conexion,$queryregistrar);
+        echo "<script> window.location= '../empleados2.php' </script>";
+
+    }else{	
+        $nombreCom = $consulta2['nombre1_usu'];
+        echo "USUARIO REGISTRADO : ".$nombreCom;
+
+    }
+
     $queryregistrar = "INSERT INTO usuarios(id_cargo,documento_usu,nombre1_usu,nombre2_usu,apellido1_usu,apellido2_usu,telefono_usu,clave_usu,estado_usu) VALUES($idCargo','$documento','$nombre1','$nombre2','$apellido1','$apellido2','$telefono','$clave','$estado')";
+    $consulta=pg_query($conexion,$query);
+    
     if ($queryregistrar){
-        echo "e";
+        //echo "e";
     }
 /*
     if ($cantidad == 0)

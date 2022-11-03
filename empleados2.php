@@ -134,8 +134,8 @@ $cargo=$_SESSION['user_cargo'];
                                     <div class="form-group">
                                         <label for="asig_id">estado</label>
                                         <select class="form-control" name="estado" id="id_prov">
-                                            <option value="activo">activo</option>
-                                            <option value="inactivo">inactivo</option>
+                                            <option value="SI">SI</option>
+                                            <option value="NO">NO</option>
                                             
                                         </select>
                                     </div>
