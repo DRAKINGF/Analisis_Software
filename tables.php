@@ -209,7 +209,10 @@ $cargo=$_SESSION['user_cargo'];
                                            {
                                             $buscar = $_POST['txtbuscar'];
                                              if(pg_fetch_array($queryproveedor)){
-                                                $queryproducto = pg_query($conexion, "SELECT * FROM productos INNER JOIN registrar_productos ON registrar_productos.id_producto=productos.id_producto where nombre_prod like '$buscar' or codigo_prod like '$buscar'");
+                                                $queryproducto = pg_query($conexion, "SELECT * FROM productos INNER JOIN registrar_productos ON registrar_productos.id_producto=productos.id_producto
+                                                INNER JOIN usuarios ON registrar_productos.id_usuario=usuarios.id_usuario
+                                                INNER JOIN proveedores ON registrar_productos.id_proveedor=proveedores.id_proveedor 
+                                                where nombre_prod like '%$buscar%' or codigo_prod like '%$buscar%' or precio_prod like '%$buscar%'");
                                             }else{
                                                //echo "<script> alert('No Se encontro el producto consultado');window.location= 'tables.php' </script>";
                                             }
@@ -226,8 +229,10 @@ $cargo=$_SESSION['user_cargo'];
                                         $i=1;
                                         while($mostrar = pg_fetch_array($queryproducto)) 
                                         {    $numerofila++;
-                                            print_r($mostrar);
-                                           // echo "<br>";
+                                            
+                                           //echo "<br>";
+                                        //print_r($mostrar);
+                                          // echo "<br>";
                                             $is1="".$mostrar['24'];
                                             $nameproveedor1 = $mostrar['24'];
                                             //print_r($nameproveedor1);
