@@ -82,9 +82,12 @@ $cargo=$_SESSION['user_cargo'];
                                              }
 
                                         $numerofila = 0;
-                                        $i=1;
                                         while($mostrar = pg_fetch_array($queryempleado)) 
-                                        {    $numerofila++;
+                                        { 
+                                            //echo "<br>";
+                                            //print_r($mostrar);
+                                           //echo "<br>";
+                                            $numerofila++;
                                              $nombreCom=$mostrar['nombre1_usu']." ".$mostrar['apellido1_usu'];
                                              ?>
                                              <tr>

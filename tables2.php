@@ -64,7 +64,8 @@ $cargo=$_SESSION['user_cargo'];
                                     
                                     <?php
                                           $queryproducto = pg_query($conexion, "SELECT * FROM productos INNER JOIN registrar_productos ON registrar_productos.id_producto=productos.id_producto
-                                                ORDER BY codigo_prod asc");
+                                          INNER JOIN usuarios ON registrar_productos.id_usuario=usuarios.id_usuario
+                                          INNER JOIN proveedores ON registrar_productos.id_proveedor=proveedores.id_proveedor ORDER BY codigo_prod asc");
                                           $queryproveedor = pg_query($conexion, "SELECT * FROM proveedores");
                                           $queryadministrador = pg_query($conexion, "SELECT * FROM usuarios");
                                         
@@ -75,7 +76,7 @@ $cargo=$_SESSION['user_cargo'];
                                                 $queryproducto = pg_query($conexion, "SELECT * FROM productos INNER JOIN registrar_productos ON registrar_productos.id_producto=productos.id_producto
                                                 INNER JOIN usuarios ON registrar_productos.id_usuario=usuarios.id_usuario
                                                 INNER JOIN proveedores ON registrar_productos.id_proveedor=proveedores.id_proveedor 
-                                                where nombre_prod like '%$buscar%' or codigo_prod like '%$buscar%' or precio_prod like '%$buscar%'");
+                                                where nombre_prod like '%$buscar%' or codigo_prod like '$buscar' or precio_prod like '$buscar'");
                                             }else{
                                                //echo "<script> alert('No Se encontro el producto consultado');window.location= 'tables.php' </script>";
                                             }
@@ -88,13 +89,13 @@ $cargo=$_SESSION['user_cargo'];
                                                 INNER JOIN proveedores ON registrar_productos.id_proveedor=proveedores.id_proveedor");
                                              }
                                         $numerofila = 0;
-                                        $i=1;
+                                        $i=0;
                                         while($mostrar = pg_fetch_array($queryproducto)) 
                                         {    $numerofila++;
                                             
                                            //echo "<br>";
-                                          // print_r($mostrar);
-                                           //echo "<br>";
+                                            //print_r($mostrar);
+                                          // echo "<br>";
                                             $is1="".$mostrar['24'];
                                             $nameproveedor1 = $mostrar['24'];
                                             //print_r($nameproveedor1);
@@ -104,28 +105,28 @@ $cargo=$_SESSION['user_cargo'];
                                             //print_r($nameadministrador1);
                                             //echo "<br>";
                                             echo "<tr>";
-                                            echo "<td>".$i."</td>";
-                                            echo "<td>".$mostrar['codigo_prod']."</td>";    
-                                            echo "<td>".$mostrar['nombre_prod']."</td>";  
-                                            echo "<td>".$mostrar['cantidad_prod']."</td>";
-                                            echo "<td>".$mostrar['precio_prod']."</td>";
-                                            echo "<td>".$mostrar['descripcion_prod']."</td>";
-                                            echo "<td>".strtoupper($nameproveedor1)."</td>";
-                                            echo "<td>".strtoupper($nameadministrador1)."</td>";
+                                            
                                             $i++;
                                             ?>
+                                             <td><?php echo $i; ?></td>
+                                            <td><?php echo $mostrar['codigo_prod']; ?></td>
+                                            <td><?php echo $mostrar['nombre_prod']; ?></td>
+                                            <td><?php echo $mostrar['cantidad_prod']; ?></td>
+                                            <td><?php echo $mostrar['precio_prod']; ?></td>
+                                            <td><?php echo $mostrar['descripcion_prod']; ?></td>
+                                            <td><?php echo $nameproveedor1; ?></td>
+                                            <td><?php echo $nameadministrador1; ?></td>
                                             <td>
-                                            <a   class="btn btn-warning btn-circle btn-sm" data-toggle="modal" data-target="#formActulizar<?php echo $mostrar['documento_usu']; ?>" onClick="")>
+                                            <a   class="btn btn-warning btn-circle btn-sm" data-toggle="modal" data-target="#formActulizar<?php echo $mostrar['codigo_prod']; ?>" onClick="">
                                             <i class="fas fa-edit"></i>
                                             </a>
-                                            <a class="btn btn-danger btn-circle btn-sm" href="modal/eliminar.php?cod=<?php echo $mostrar['id_producto'] ?>" onClick="return confirm('¿Estás seguro de eliminar a <?php echo $mostrar['nombre_prod']?>?')">
+                                            <a class="btn btn-danger btn-circle btn-sm" href="modal/eliminar.php?cod=<?php echo $mostrar['id_producto']; ?>" onClick="return confirm('¿Estás seguro de eliminar a <?php echo $mostrar['nombre_prod'];?>?')">
                                             <i class="fas fa-trash"></i>
                                             </a>
                                           </td>
 
-
                     <!-- Modal actualizar empleado-->
-                    <div class="modal fade" id="formActulizar<?php echo $mostrar['documento_usu']; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                    <div class="modal fade" id="formActulizar<?php echo $mostrar['codigo_prod']; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                             <div class="modal-header">
@@ -143,19 +144,19 @@ $cargo=$_SESSION['user_cargo'];
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="inputNom">Nombre Producto</label>
-                                                    <input type="text" class="form-control" id="inputName"  name="txtnombre" value="<?php echo $mostrar['2']?>"  placeholder="Ingrese nombre" required=""/>
+                                                    <input type="text" class="form-control" id="inputName"  name="txtnombre" value="<?php echo $mostrar['nombre_prod'];?>"  placeholder="Ingrese nombre" required=""/>
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="inputPre">Precio Producto</label>
-                                                    <input type="number" class="form-control" id="inputPrice" name="txtprecio" value="<?php echo $mostrar['nombre_prod']; ?>"  placeholder="Ingrese Precio" required=""/>
+                                                    <input type="number" class="form-control" id="inputPrice" name="txtprecio" value="<?php echo $mostrar['precio_prod']; ?>"  placeholder="Ingrese Precio" required=""/>
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="inputMessage">Stock Producto</label>
-                                                    <input type="text" class="form-control" id="inputStock"  name="txtstock" value="<?php echo $mostrar['nombre_prod']; ?>"  placeholder="Ingrese stock Producto" required=""/>
+                                                    <input type="text" class="form-control" id="inputStock"  name="txtstock" value="<?php echo $mostrar['cantidad_prod']; ?>"  placeholder="Ingrese stock Producto" required=""/>
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="inputMessage">Descripcion Producto</label>
-                                                    <input type="text" class="form-control" id="inputDescripcion"  name="txtdescripcion" placeholder="Ingrese descripcion Producto" required=""/>
+                                                    <input type="text" class="form-control" id="inputDescripcion"  name="txtdescripcion" value="<?php echo $mostrar['descripcion_prod']; ?>" placeholder="Ingrese descripcion Producto" required=""/>
                                                 </div>
                                                 <div class="row">
                                                         <div class="col-md-12">
@@ -182,6 +183,7 @@ $cargo=$_SESSION['user_cargo'];
                                        </form>
                             </div>
                             </div>
+                        </div>
                         </div>
                         </div>
                         <!-- finModal -->

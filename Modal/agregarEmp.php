@@ -22,15 +22,22 @@ include_once("../conexion/conexion.php");
     $consulta=pg_query($conexion,$query);
     $cantidad=pg_num_rows($consulta);
     $consulta2 = pg_fetch_array($consulta);
-    //print_r($consulta2);
+    print_r($consulta2);
     if ($cantidad == 0)
     {
         $queryregistrar = "INSERT INTO usuarios(id_cargo,documento_usu,nombre1_usu,nombre2_usu,apellido1_usu,apellido2_usu,telefono_usu,clave_usu,estado_usu) VALUES('$idCargo','$documento','$nombre1','$nombre2','$apellido1','$apellido2','$telefono','$clave','$estado')";
         $consulta=pg_query($conexion,$queryregistrar);
 
-      /*  $queryconsulta= "SELECT id_usuario FROM usuarios where documento_usu='$documento' ORDER BY id_usuario DESC LIMIT 1";
-        $consulta3=pg_query($conexion,$queryconsulta);*/
-       echo "<script> window.location= '../empleados2.php' </script>";
+        $query=("SELECT * FROM usuarios
+        WHERE documento_usu='$documento'");
+
+        $consulta=pg_query($conexion,$query);
+        $cantidad=pg_num_rows($consulta);
+        $consulta3 = pg_fetch_array($consulta);
+        $documento=$consulta3['id_usuario'];
+        $queryconsulta= "INSERT INTO acceso (id_usuario) VALUES('$documento')";
+        $consulta4=pg_query($conexion,$queryconsulta);
+        echo "<script> window.location= '../empleados2.php' </script>";
 
     }else{	
         $nombreCom = $consulta2['nombre1_usu'];
@@ -38,7 +45,7 @@ include_once("../conexion/conexion.php");
 
     }
 
-    $queryregistrar = "INSERT INTO usuarios(id_cargo,documento_usu,nombre1_usu,nombre2_usu,apellido1_usu,apellido2_usu,telefono_usu,clave_usu,estado_usu) VALUES($idCargo','$documento','$nombre1','$nombre2','$apellido1','$apellido2','$telefono','$clave','$estado')";
+    $queryregistrar = "INSERT INTO usuarios(id_cargo,documento_usu,nombre1_usu,nombre2_usu,apellido1_usu,apellido2_usu,telefono_usu,clave_usu,estado_usu) VALUES('$idCargo','$documento','$nombre1','$nombre2','$apellido1','$apellido2','$telefono','$clave','$estado')";
     $consulta=pg_query($conexion,$query);
     
     if ($queryregistrar){
