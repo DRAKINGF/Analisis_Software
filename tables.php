@@ -396,63 +396,50 @@ $cargo=$_SESSION['user_cargo'];
                                         <div class="modal-body">
                                             <p class="statusMsg"></p>
                                             <form name="formulario" method="POST" role="form" action="Modal/modificar.php">
-                                               
                                             <div class="form-group">
-                                                    <label for="inputCod">Codigo Producto</label>
-                                                    <input type="text" class="form-control" id="inputCode1" name="txtcodigo" placeholder="Ingresa codigo producto" required=""/>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="inputNom">Nombre Producto</label>
-                                                    <input type="text" class="form-control" id="inputName1"  name="txtnombre" placeholder="Ingrese nombre" required=""/>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="inputPre">Precio Producto</label>
-                                                    <input type="number" class="form-control" id="inputPrice1" name="txtprecio" placeholder="Ingrese Precio" required=""/>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="inputMessage">Stock Producto</label>
-                                                    <input type="text" class="form-control" id="inputStock1"  name="txtstock" placeholder="Ingrese stock Producto" required=""/>
-                                                </div>
-                                                <div class="row">
-                                                
-                                                        <div class="col-md-6">
-                                                            <div class="form-group">
-                                                                <label for="estu_id">Administrador</label>
-                                                                <select class="form-control" name="id_admin1" id="id_admin1">
-                                                                    <option value="">Selecionar administrador</option>
-                                                                    <?php
-                                                                        $numerofila = 0;
-                                                                        while($mostrar = pg_fetch_array($queryproveedor)) 
-                                                                        {    
-                                                                            $numerofila++;
-                                                                            echo "<option value=".$mostrar['id_proveedor'].">".ucwords(strtolower($mostrar['nombre_prov']))."</option>";
-                                                                        }   
-                                                                    ?>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <div class="form-group">
-                                                                <label for="asig_id">Proveedor</label>
-                                                                <select class="form-control" name="id_prov1" id="id_prov1">
-                                                                    <option value="">Selecionar proveedor</option>
-                                                                    <?php
-                                                                        $numerofila = 0;
-                                                                        while($mostrar = pg_fetch_array($queryadministrador)) 
-                                                                        {    
-                                                                            $numerofila++;
-                                                                            echo "<option value=".$mostrar['id_administrador'].">".ucwords(strtolower($mostrar['nombre1_emp']))."</option>";
-                                                                        }   
-                                                                    ?>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                                            <input type="submit" class="btn btn-primary submitBtn"  value="Modificar" onClick="guardar()">
+                                        <label for="inputCod">Documento</label>
+                                        <input type="text" class="form-control"  name="txtdocR" placeholder="Ingresa codigo producto" required=""/>
+                                        <input type="hidden" class="form-control"  name="id_cargo" value="2"/>
+
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputNom">Primer nombre</label>
+                                        <input type="text" class="form-control"  name="nombre1R" placeholder="Ingrese primer nombre" required=""/>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputNom">Segundo nombre</label>
+                                        <input type="text" class="form-control"   name="nombre2R" placeholder="Ingrese segundo nombre" required=""/>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputNom">Primer apellido</label>
+                                        <input type="text" class="form-control"  name="apellido1R" placeholder="Ingrese primer apellido" required=""/>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputNom">Segundo apellido</label>
+                                        <input type="text" class="form-control"  name="apellido2R" placeholder="Ingrese segundo apellido" required=""/>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputPre">Telefono</label>
+                                        <input type="number" class="form-control"  name="telefono" placeholder="Ingrese telefono" required=""/>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputMessage">Contraseña</label>
+                                        <input type="password" class="form-control"  name="pass" placeholder="Ingrese contraseña" required=""/>
+                                    </div>
                                     
-                                        </div>
+                                    <div class="form-group">
+                                        <label for="asig_id">estado</label>
+                                        <select class="form-control" name="estado" id="id_prov">
+                                            <option value="SI">SI</option>
+                                            <option value="NO">NO</option>
+                                            
+                                        </select>
+                                    </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                <input type="submit" class="btn btn-primary submitBtn" name="btnregistrar" value="Registrar" onClick="javascript: return confirm('¿Deseas registrar este empleado?');">
+                                      
                                             </form>
                                         </div>
                                         

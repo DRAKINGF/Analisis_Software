@@ -45,6 +45,7 @@ $cargo=$_SESSION['user_cargo'];
 
                                 <table class="display" id="dataTable2" width="100%" cellspacing="0">
 
+                                    
                                     <thead>
                                         <tr>
                                             <th>Nro.</th>
@@ -61,8 +62,24 @@ $cargo=$_SESSION['user_cargo'];
                                     <tbody>
                                    
                                     <?php
+
+
                                           $queryempleado = pg_query($conexion, "SELECT * FROM usuarios where id_cargo='2' ");
-                                        
+                                                                                if(isset($_POST['btnbuscar']))
+                                           {
+                                            $buscar = $_POST['txtbuscar'];
+                                             if(pg_fetch_array($queryempleado)){
+                                                $queryempleado = pg_query($conexion, "SELECT * FROM usuarios where nombre1_usu like '%$buscar%' 
+                                                or documento_usu like '%$buscar%'");
+                                            }else{
+                                               //echo "<script> alert('No Se encontro el producto consultado');window.location= 'tables.php' </script>";
+                                            }
+                                             
+                                             }
+                                             else
+                                            {
+                                                $queryempleado = pg_query($conexion, "SELECT * FROM usuarios ");
+                                             }
 
                                         $numerofila = 0;
                                         $i=1;
@@ -79,7 +96,7 @@ $cargo=$_SESSION['user_cargo'];
         
                                             <td> 
                                                 
-                                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editChildresn<?php echo $mostrar['documento_usu']; ?>">
+                                                <button type="button" class="btn btn-primary  btn-circle btn-sm" data-toggle="modal" data-target="#editChildresn<?php echo $mostrar['documento_usu']; ?>">
                                                 <i class="fas fa-edit"></i>
                                                 </button>
                                                 

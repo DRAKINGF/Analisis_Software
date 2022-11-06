@@ -23,8 +23,9 @@ $usuario = $_SESSION['nombre_usuario'];
     if ($cantidad == 0)
 {
 	$queryregistrar = "INSERT INTO productos(codigo_prod,nombre_prod,precio_prod,cantidad_prod,descripcion_prod) VALUES('$cod','$nombre','$precio','$stock','$descripcion')";
-	
-    $query2= "SELECT id_producto  
+	$consulta11=pg_query($conexion,$queryregistrar);
+
+    $query2= "SELECT * 
     FROM productos  
     where codigo_prod='$cod'
     ORDER BY id_producto DESC 
@@ -38,18 +39,23 @@ $usuario = $_SESSION['nombre_usuario'];
 
     $consulta1=pg_query($conexion,$query2);
     $consulta2=pg_query($conexion,$query3);
-    if($consulta1)
+    if($consulta11)
     {
         $today = date("Y/m/j");
         $nombre_prov = pg_fetch_array($consulta2);
+        echo "prueba";
         $id_producto = pg_fetch_array($consulta1);
         print_r($nombre_prov);
+        echo "prueba2";
+        print_r($usuario);
+        echo "prueba3";
         print_r($id_producto);
-        $id_prodcuto2= $id_producto['id_producto'];
+        $id_prodcuto2= $id_producto['0'];
+        $nombre_prov2= $id_producto['0'];
         $id_proveedor = $nombre_prov['nombre_prov'];
         print_r($id_prodcuto2);
         echo "<script> alert('proveedor registrado:'".$nombre_prov['nombre_prov'].");</script>";
-        $queryregistrar = "INSERT INTO registrar_productos(id_proveedor,id_usuario,id_producto,nombre_prov,cantidad_prov,fecha) VALUES('$proveedor','$usuario','$id_prodcuto2','$nombre_prov','$stock','$today')";
+        $queryregistrar = "INSERT INTO registrar_productos(id_proveedor,id_usuario,id_producto,nombre_prov,cantidad_prov,fecha) VALUES('$proveedor','$usuario','$id_prodcuto2','$nombre_prov2','$stock','$today')";
 	
     }
 
@@ -68,7 +74,7 @@ else
 {
 		echo "<script> alert('No puedes registrar este usuario: $usuario'); </script>";
 }
-header("");
+header("Location:../tables2.php");
 	
 
 ?>

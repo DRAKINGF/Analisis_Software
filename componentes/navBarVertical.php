@@ -36,11 +36,6 @@ $cargo=$_SESSION['user_cargo'];
                 Interface
             </div>
 
-            <?php 
-            if($cargo=="1")
-            {
-            ?>
-
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
@@ -57,12 +52,16 @@ $cargo=$_SESSION['user_cargo'];
                     </div>
                 </div>
             </li>
-            <?php
-        }
-        ?>
+
+            <?php 
+            if($cargo=="1")
+            {
+            ?>
+
+
             <!-- Nav Item - Utilities Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="emplados2.php" data-toggle="collapse" data-target="#collapseUtilities"
+                <a class="nav-link collapsed" href="../empleados2.php" data-toggle="collapse" data-target="#collapseUtilities"
                     aria-expanded="true" aria-controls="collapseUtilities">
                     <i class="fa fa-users" aria-hidden="true"></i>
                     <span>Empleados</span>
@@ -71,13 +70,16 @@ $cargo=$_SESSION['user_cargo'];
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Administrar:</h6>
-                        <a class="collapse-item" href="emplados2.php">Agregar Clientes</a>
+                        <a class="collapse-item" href="./empleados2.php">Agregar Clientes</a>
                         <a class="collapse-item" href="cards.html">Consultar Clientes</a>
                         <a class="collapse-item" href="cards.html">Actualizar Clientes</a>
                     </div>
                 </div>
             </li>
 
+            <?php
+        }
+        ?>
             <!-- Divider -->
             <hr class="sidebar-divider">
 

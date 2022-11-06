@@ -19,7 +19,7 @@ $cargo=$_SESSION['user_cargo'];
                             <h6 class="m-0 font-weight-bold text-success">Lista de productos</h6>
                             </div>
                             <div class="float-sm-right">
-                            <button type="button" class="btn btn-success submitBtn" data-toggle="modal" data-target="#exampleModalLong">modal usuario</button>
+                            <button type="button" class="btn btn-success submitBtn" data-toggle="modal" data-target="#exampleModalLong">agregar productos</button>
                             </div>
                           <!--  <a style="font-weight: normal; font-size: 14px;" onclick="abrirform()">Agregar</a>-->
                         </div>
@@ -63,7 +63,8 @@ $cargo=$_SESSION['user_cargo'];
                                     <tbody>
                                     
                                     <?php
-                                          $queryproducto = pg_query($conexion, "SELECT * FROM productos ORDER BY codigo_prod asc");
+                                          $queryproducto = pg_query($conexion, "SELECT * FROM productos INNER JOIN registrar_productos ON registrar_productos.id_producto=productos.id_producto
+                                                ORDER BY codigo_prod asc");
                                           $queryproveedor = pg_query($conexion, "SELECT * FROM proveedores");
                                           $queryadministrador = pg_query($conexion, "SELECT * FROM usuarios");
                                         
@@ -92,7 +93,7 @@ $cargo=$_SESSION['user_cargo'];
                                         {    $numerofila++;
                                             
                                            //echo "<br>";
-                                           //print_r($mostrar);
+                                          // print_r($mostrar);
                                            //echo "<br>";
                                             $is1="".$mostrar['24'];
                                             $nameproveedor1 = $mostrar['24'];
@@ -114,13 +115,78 @@ $cargo=$_SESSION['user_cargo'];
                                             $i++;
                                             ?>
                                             <td>
-                                            <a   class="btn btn-warning btn-circle btn-sm" data-toggle="modal" data-target="#exampleModalLong" onClick="")>
+                                            <a   class="btn btn-warning btn-circle btn-sm" data-toggle="modal" data-target="#formActulizar<?php echo $mostrar['documento_usu']; ?>" onClick="")>
                                             <i class="fas fa-edit"></i>
                                             </a>
-                                            <a class="btn btn-danger btn-circle btn-sm" href="modal/eliminar.php?cod=<?php echo $mostrar['codigo_prod'] ?>" onClick="return confirm('¿Estás seguro de eliminar a <?php echo $mostrar['nombre_prod']?>?')">
+                                            <a class="btn btn-danger btn-circle btn-sm" href="modal/eliminar.php?cod=<?php echo $mostrar['id_producto'] ?>" onClick="return confirm('¿Estás seguro de eliminar a <?php echo $mostrar['nombre_prod']?>?')">
                                             <i class="fas fa-trash"></i>
                                             </a>
                                           </td>
+
+
+                    <!-- Modal actualizar empleado-->
+                    <div class="modal fade" id="formActulizar<?php echo $mostrar['documento_usu']; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="formActulizarTitle">Actualizar</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                            <p class="statusMsg"></p>
+                                <form action="Modal/agregar.php" method="POST" role="form">
+                                <div class="form-group">
+                                                    <label for="inputCod">Codigo Producto</label>
+                                                    <input type="text" class="form-control" id="inputName" name="txtcodigo" value="<?php echo $mostrar['codigo_prod']; ?>" placeholder="Ingresa codigo producto" required="" disabled/>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="inputNom">Nombre Producto</label>
+                                                    <input type="text" class="form-control" id="inputName"  name="txtnombre" value="<?php echo $mostrar['2']?>"  placeholder="Ingrese nombre" required=""/>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="inputPre">Precio Producto</label>
+                                                    <input type="number" class="form-control" id="inputPrice" name="txtprecio" value="<?php echo $mostrar['nombre_prod']; ?>"  placeholder="Ingrese Precio" required=""/>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="inputMessage">Stock Producto</label>
+                                                    <input type="text" class="form-control" id="inputStock"  name="txtstock" value="<?php echo $mostrar['nombre_prod']; ?>"  placeholder="Ingrese stock Producto" required=""/>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="inputMessage">Descripcion Producto</label>
+                                                    <input type="text" class="form-control" id="inputDescripcion"  name="txtdescripcion" placeholder="Ingrese descripcion Producto" required=""/>
+                                                </div>
+                                                <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <label for="asig_id">Proveedor</label>
+                                                                <select class="form-control" name="id_prov" id="id_prov">
+                                                                    <option value="">Selecionar proveedor</option>
+                                                                    <?php
+                                                                        $queryproveedor = pg_query($conexion, "SELECT * FROM proveedores");
+                                                                        $numerofila = 0;
+                                                                        while($mostrar2 = pg_fetch_array($queryproveedor)) 
+                                                                        {    
+                                                                            $numerofila++;
+                                                                            echo "<option value=".$mostrar2['id_proveedor'].">".strtoupper(strtolower($mostrar2['nombre_prov']))."</option>";
+                                                                        }   
+                                                                    ?>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        </div>  
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                <input type="submit" class="btn btn-primary submitBtn" name="btnregistrar" value="Registrar" onClick="javascript: return confirm('¿Deseas registrar este empleado?');">
+                                       </form>
+                            </div>
+                            </div>
+                        </div>
+                        </div>
+                        <!-- finModal -->
+
+
                                           <?php
                                             /*echo "<td style='width:26%'><a data-toggle=modal data-target=#formModal2 cod=$mostrar[cod_producto]\">dd</a> | <a href=\"modal/eliminar.php?cod=$mostrar[cod_producto]\" onClick=\"return confirm('¿Estás seguro de eliminar a $mostrar[nombre]?')\">Eliminar</a></td>"; */          
                                             
@@ -150,7 +216,7 @@ $cargo=$_SESSION['user_cargo'];
                             <div class="modal-body">
                             <p class="statusMsg"></p>
                                 <form action="Modal/agregar.php" method="POST" role="form">
-                                <div class="form-group">
+                                                <div class="form-group">
                                                     <label for="inputCod">Codigo Producto</label>
                                                     <input type="text" class="form-control" id="inputName" name="txtcodigo" placeholder="Ingresa codigo producto" required=""/>
                                                 </div>
@@ -196,69 +262,6 @@ $cargo=$_SESSION['user_cargo'];
                                     
                                         </div>
                             </form>
-                            </div>
-                        </div>
-                        </div>
-                        <!-- finModal -->
-
-                    <!-- Modal actualizar empleado-->
-                    <div class="modal fade" id="formActulizar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLongTitle">Actualizar</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                            <p class="statusMsg"></p>
-                                <form action="Modal/agregar.php" method="POST" role="form">
-                                <div class="form-group">
-                                        <label for="inputCod">Documento</label>
-                                        <input type="text" class="form-control"  name="txtdoc" placeholder="Ingresa codigo producto" required=""/>
-                                        <input type="hidden" class="form-control"  name="id_cargo" value="2"/>
-
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="inputNom">Primer nombre</label>
-                                        <input type="text" class="form-control"  name="nombre1" placeholder="Ingrese primer nombre" required=""/>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="inputNom">Segundo nombre</label>
-                                        <input type="text" class="form-control"   name="nombre2" placeholder="Ingrese segundo nombre" required=""/>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="inputNom">Primer apellido</label>
-                                        <input type="text" class="form-control"  name="apellido1" placeholder="Ingrese primer apellido" required=""/>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="inputNom">Segundo apellido</label>
-                                        <input type="text" class="form-control"  name="apellido2" placeholder="Ingrese segundo apellido" required=""/>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="inputPre">Telefono</label>
-                                        <input type="number" class="form-control"  name="telefono" placeholder="Ingrese telefono" required=""/>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="inputMessage">Contraseña</label>
-                                        <input type="password" class="form-control"  name="pass" placeholder="Ingrese contraseña" required=""/>
-                                    </div>
-                                    
-                                    <div class="form-group">
-                                        <label for="asig_id">estado</label>
-                                        <select class="form-control" name="estado" id="id_prov">
-                                            <option value="SI">SI</option>
-                                            <option value="NO">NO</option>
-                                            
-                                        </select>
-                                    </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                                <input type="submit" class="btn btn-primary submitBtn" name="btnregistrar" value="Registrar" onClick="javascript: return confirm('¿Deseas registrar este empleado?');">
-                                       </form>
-                            </div>
                             </div>
                         </div>
                         </div>

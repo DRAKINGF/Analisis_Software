@@ -23,7 +23,7 @@ print_r($consulta2);
 if($cantidad>0){
 	$id_empleado = pg_fetch_array($consulta);
 	$id_Acces = $id_empleado['id_acceso'];
-	$_SESSION['nombre_usuario']=$id_empleado['id_acceso'];  
+	$_SESSION['nombre_usuario']=$id_empleado['id_usuario'];  
 	$user1=$id_empleado['nombre1_usu'];
 	$cargo=$id_empleado['id_cargo'];
 	$_SESSION['user_name']=$user1;
@@ -37,7 +37,7 @@ else{
 if($cantidad2>0){
 	$id_empleado = pg_fetch_array($consulta2);
 	$id_Acces = $id_empleado['id_acceso'];
-	$_SESSION['nombre_usuario']=$id_empleado['id_acceso'];  
+	$_SESSION['nombre_usuario']=$id_empleado['id_usuario'];  
 	$user1=$id_empleado['nombre1_usu'];
 	$cargo=$id_empleado['id_cargo'];
 	$_SESSION['user_name']=$user1;
