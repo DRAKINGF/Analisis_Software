@@ -38,11 +38,26 @@ session_start();
 
 <!--===============================================================================================-->
 </head>
-<body>
+<body>					
 	
 	<div class="limiter">
 		<div class="container-login100" style="background-image: url('img/bg-garden.jpg');">
 			<div class="wrap-login100 p-t-30 p-b-50">
+				
+			<?php
+			$autostart_modal = isset($_SESSION['no_session']); 
+			if($autostart_modal){
+				//print_r($autostart_modal);
+			?>
+			<div class="alert alert-warning alert-dismissible fade show" role="alert">
+			<strong>Usuario no encontrado ! Por favor Intente de nuevo.</strong>
+			<button id="alert" type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+			</div>
+			<?php  
+		} session_destroy(); ?>
+
 				<span class="login100-form-title p-b-41">
              <div >
                 <img  class="img-side" src="img/logo.png">
@@ -68,6 +83,8 @@ session_start();
 					</div>
 
 				</form>
+
+
 			</div>
 		</div>
 	</div>
@@ -81,7 +98,6 @@ session_start();
 	<script src="vendor/animsition/js/animsition.min.js"></script>
 <!--===============================================================================================-->
 	<script src="vendor/bootstrap/js/popper.js"></script>
-	<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
 <!--===============================================================================================-->
 	<script src="vendor/select2/select2.min.js"></script>
 <!--===============================================================================================-->
@@ -92,5 +108,8 @@ session_start();
 <!--===============================================================================================-->
 	<script src="js/main.js"></script>
 
+	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+	
+	<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
 </body>
 </html>

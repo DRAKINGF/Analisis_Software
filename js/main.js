@@ -83,5 +83,8 @@
         
     });
 
+    $('.close').on('click', function(){
+        $(".alert").alert('close')
+});
 
 })(jQuery);

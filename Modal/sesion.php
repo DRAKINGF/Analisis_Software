@@ -14,7 +14,7 @@ $query=("SELECT * FROM usuarios INNER JOIN acceso ON usuarios.id_usuario=acceso.
 $consulta=pg_query($conexion,$query);
 $id = pg_fetch_array($consulta);
 $cantidad=pg_num_rows($consulta);
-var_dump($id);
+//var_dump($id);
 
 if($cantidad>0){
 	$id_empleado = $id;
@@ -35,7 +35,8 @@ if($cantidad>0){
 	} 
 }
 else{
-	echo "Datos incorrectos.";
+	$_SESSION['no_session']="";
+	header('Location:../index.php');
 }
 
 ?>
