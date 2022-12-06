@@ -34,6 +34,7 @@ if($cantidad>0){
 		header('Location:../empleados2.php');  
 	} 
 }
+
 else{
 	$_SESSION['no_session']="";
 	header('Location:../index.php');

@@ -42,6 +42,18 @@ $cargo=$_SESSION['user_cargo'];
                                     </form>
  
 
+                                        <?php
+                                        /*
+
+                                        require_once __DIR__ . '/vendor/autoload.php';
+
+                                        $mpdf = new \Mpdf\Mpdf();
+
+                                        $mpdf->WriteHTML('<h1>Mostrando una imagen</h1>');
+                                        $mpdf->Output();
+                                        */
+                                        ?>  
+                                        
                                 <table class="display" id="dataTable" width="100%" cellspacing="0">
 
                                     <thead>
@@ -76,7 +88,7 @@ $cargo=$_SESSION['user_cargo'];
                                                 $queryproducto = pg_query($conexion, "SELECT * FROM productos INNER JOIN registrar_productos ON registrar_productos.id_producto=productos.id_producto
                                                 INNER JOIN usuarios ON registrar_productos.id_usuario=usuarios.id_usuario
                                                 INNER JOIN proveedores ON registrar_productos.id_proveedor=proveedores.id_proveedor 
-                                                where nombre_prod like '%$buscar%' or codigo_prod like '$buscar' or precio_prod like '$buscar'");
+                                                where nombre_prod = '$buscar' or codigo_prod = '$buscar' ");
                                             }else{
                                                //echo "<script> alert('No Se encontro el producto consultado');window.location= 'tables.php' </script>";
                                             }
@@ -120,9 +132,11 @@ $cargo=$_SESSION['user_cargo'];
                                             <a   class="btn btn-warning btn-circle btn-sm" data-toggle="modal" data-target="#formActulizar<?php echo $mostrar['codigo_prod']; ?>" onClick="">
                                             <i class="fas fa-edit"></i>
                                             </a>
+                                            <!--
                                             <a class="btn btn-danger btn-circle btn-sm" href="modal/eliminar.php?cod=<?php echo $mostrar['id_producto']; ?>" onClick="return confirm('¿Estás seguro de eliminar a <?php echo $mostrar['nombre_prod'];?>?')">
                                             <i class="fas fa-trash"></i>
                                             </a>
+                                            -->
                                           </td>
 
                     <!-- Modal actualizar empleado-->
@@ -137,10 +151,10 @@ $cargo=$_SESSION['user_cargo'];
                             </div>
                             <div class="modal-body">
                             <p class="statusMsg"></p>
-                                <form action="Modal/agregar.php" method="POST" role="form">
+                                <form action="Modal/modificar.php" method="POST" role="form">
                                 <div class="form-group">
                                                     <label for="inputCod">Codigo Producto</label>
-                                                    <input type="text" class="form-control" id="inputName" name="txtcodigo" value="<?php echo $mostrar['codigo_prod']; ?>" placeholder="Ingresa codigo producto" required="" disabled/>
+                                                    <input type="text" class="form-control" id="inputName" name="txtcodigo" value="<?php echo $mostrar['codigo_prod']; ?>" placeholder="Ingresa codigo producto" required="" readonly/>
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="inputNom">Nombre Producto</label>
@@ -158,28 +172,10 @@ $cargo=$_SESSION['user_cargo'];
                                                     <label for="inputMessage">Descripcion Producto</label>
                                                     <input type="text" class="form-control" id="inputDescripcion"  name="txtdescripcion" value="<?php echo $mostrar['descripcion_prod']; ?>" placeholder="Ingrese descripcion Producto" required=""/>
                                                 </div>
-                                                <div class="row">
-                                                        <div class="col-md-12">
-                                                            <div class="form-group">
-                                                                <label for="asig_id">Proveedor</label>
-                                                                <select class="form-control" name="id_prov" id="id_prov">
-                                                                    <option value="">Selecionar proveedor</option>
-                                                                    <?php
-                                                                        $queryproveedor = pg_query($conexion, "SELECT * FROM proveedores");
-                                                                        $numerofila = 0;
-                                                                        while($mostrar2 = pg_fetch_array($queryproveedor)) 
-                                                                        {    
-                                                                            $numerofila++;
-                                                                            echo "<option value=".$mostrar2['id_proveedor'].">".strtoupper(strtolower($mostrar2['nombre_prov']))."</option>";
-                                                                        }   
-                                                                    ?>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                        </div>  
+                        
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                                <input type="submit" class="btn btn-primary submitBtn" name="btnregistrar" value="Registrar" onClick="javascript: return confirm('¿Deseas registrar este empleado?');">
+                                <input type="submit" class="btn btn-primary submitBtn" name="btnregistrar" value="Actualizar" onClick="javascript: return confirm('¿Deseas actualizar este empleado?');">
                                        </form>
                             </div>
                             </div>
@@ -210,7 +206,7 @@ $cargo=$_SESSION['user_cargo'];
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLongTitle">Añadir empleado</h5>
+                                <h5 class="modal-title" id="exampleModalLongTitle">Añadir producto</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                                 </button>

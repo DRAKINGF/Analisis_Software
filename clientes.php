@@ -16,10 +16,10 @@ $cargo=$_SESSION['user_cargo'];
                 <div class="card shadow mb-4">
                         <div class="card-header py-3">
                             <div class="d-flex justify-content-center">
-                            <h6 class="m-0 font-weight-bold text-success">Lista de empleados</h6>
+                            <h6 class="m-0 font-weight-bold text-success">Lista de clientes</h6>
                             </div>
                             <div class="float-sm-right">
-                            <button type="button" class="btn btn-success submitBtn" data-toggle="modal" data-target="#exampleModalLong">Añadir empleado</button>
+                            <button type="button" class="btn btn-success submitBtn" data-toggle="modal" data-target="#exampleModalLong">Añadir clientes</button>
                             </div>
                           <!--  <a style="font-weight: normal; font-size: 14px;" onclick="abrirform()">Agregar</a>-->
                         </div>
@@ -31,7 +31,7 @@ $cargo=$_SESSION['user_cargo'];
                                  <form method="POST"
                                         class="offset-md-8 navbar-search">
                                         <div class="input-group">
-                                            <input type="text"  class="form-control bg-light border-0 small" placeholder="Buscar Empleado"
+                                            <input type="text"  class="form-control bg-light border-0 small" placeholder="Buscar Cliente"
                                                 aria-label="Search" aria-describedby="basic-addon2" id="txtbuscar" name="txtbuscar">
                                             <div class="input-group-append">
                                                 <button   class="btn btn-success" type="submit" id="btnbuscar" name="btnbuscar">
@@ -52,7 +52,7 @@ $cargo=$_SESSION['user_cargo'];
                                             <th>documento</th>
                                             <th>Nombre</th>
                                             <th>Telefono</th>
-                                            <th>Estado</th>
+                                            <th>Direccion</th>
                                             <th>Acción</th>
 
                                             
@@ -64,13 +64,13 @@ $cargo=$_SESSION['user_cargo'];
                                     <?php
 
 
-                                          $queryempleado = pg_query($conexion, "SELECT * FROM usuarios where id_cargo='2' ");
+                                          $queryempleado = pg_query($conexion, "SELECT * FROM clientes ");
                                                                                 if(isset($_POST['btnbuscar']))
                                            {
                                             $buscar = $_POST['txtbuscar'];
                                              if(pg_fetch_array($queryempleado)){
-                                                $queryempleado = pg_query($conexion, "SELECT * FROM usuarios where nombre1_usu = '$buscar' 
-                                                or documento_usu = '$buscar' ");
+                                                $queryempleado = pg_query($conexion, "SELECT * FROM clientes where nombre1_cli like '%$buscar%' 
+                                                or documento_cli = '$buscar'");
                                             }else{
                                                //echo "<script> alert('No Se encontro el producto consultado');window.location= 'tables.php' </script>";
                                             }
@@ -78,7 +78,7 @@ $cargo=$_SESSION['user_cargo'];
                                              }
                                              else
                                             {
-                                                $queryempleado = pg_query($conexion, "SELECT * FROM usuarios ");
+                                                $queryempleado = pg_query($conexion, "SELECT * FROM clientes ");
                                              }
 
                                         $numerofila = 0;
@@ -88,18 +88,18 @@ $cargo=$_SESSION['user_cargo'];
                                             //print_r($mostrar);
                                            //echo "<br>";
                                             $numerofila++;
-                                             $nombreCom=$mostrar['nombre1_usu']." ".$mostrar['apellido1_usu'];
+                                             $nombreCom=$mostrar['nombre1_cli']." ".$mostrar['apellido1_cli'];
                                              ?>
                                              <tr>
                                              <td><?php echo $numerofila; ?></td>
-                                            <td><?php echo $mostrar['documento_usu']; ?></td>
+                                            <td><?php echo $mostrar['documento_cli']; ?></td>
                                             <td><?php echo strtoupper($nombreCom); ?></td>
-                                            <td><?php echo $mostrar['telefono_usu']; ?></td>
-                                            <td><?php echo $mostrar['estado_usu']; ?></td>
+                                            <td><?php echo $mostrar['telefono_cli']; ?></td>
+                                            <td><?php echo $mostrar['direccion_cli']; ?></td>
         
                                             <td> 
                                                 
-                                                <button type="button" class="btn btn-primary  btn-circle btn-sm" data-toggle="modal" data-target="#editChildresn<?php echo $mostrar['documento_usu']; ?>">
+                                                <button type="button" class="btn btn-primary  btn-circle btn-sm" data-toggle="modal" data-target="#editChildresn<?php echo $mostrar['documento_cli']; ?>">
                                                 <i class="fas fa-edit"></i>
                                                 </button>
                                                 
@@ -114,7 +114,7 @@ $cargo=$_SESSION['user_cargo'];
                                         -->
                                            <!-- Modal actualizar empleado-->
                                            
-                    <div class="modal fade" id="editChildresn<?php echo $mostrar['documento_usu']; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                    <div class="modal fade" id="editChildresn<?php echo $mostrar['documento_cli']; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                             <div class="modal-header">
@@ -125,50 +125,42 @@ $cargo=$_SESSION['user_cargo'];
                             </div>
                             <div class="modal-body">
                             <p class="statusMsg"></p>
-                                <form action="Modal/modificarEmp.php" method="POST" role="form">
+                                <form action="Modal/modificarCli.php" method="POST" role="form">
                                 <div class="form-group">
                                         <label for="inputCod">Documento</label>
-                                        <input type="integer" class="form-control" value="<?php echo $mostrar['documento_usu']; ?>" name="txtdoc" placeholder="Ingresa codigo producto" readonly required=""/>
-                                        <input type="hidden" class="form-control"  name="id_cargo" value="2"/>
+                                        <input type="integer" class="form-control" value="<?php echo $mostrar['documento_cli']; ?>" name="id_doc" placeholder="Ingresa documento" readonly required=""/>
 
                                     </div>
                                     <div class="form-group">
                                         <label for="inputNom">Primer nombre</label>
-                                        <input type="text" class="form-control"  value="<?php echo $mostrar['nombre1_usu']; ?>"  pattern="[a-z]{1,15}" name="nombre1" placeholder="Ingrese primer nombre" required=""/>
+                                        <input type="text" class="form-control"  pattern="[a-z]{1,15}" value="<?php echo $mostrar['nombre1_cli']; ?>" name="nombre1" placeholder="Ingrese primer nombre" required=""/>
                                     </div>
                                     <div class="form-group">
                                         <label for="inputNom">Segundo nombre</label>
-                                        <input type="text" class="form-control"   value="<?php echo $mostrar['nombre2_usu']; ?>"  pattern="[a-z]{1,15}" name="nombre2" placeholder="Ingrese segundo nombre" />
+                                        <input type="text" class="form-control"  pattern="[a-z]{1,15}"value="<?php echo $mostrar['nombre2_cli']; ?>" name="nombre2" placeholder="Ingrese segundo nombre"/>
                                     </div>
                                     <div class="form-group">
                                         <label for="inputNom">Primer apellido</label>
-                                        <input type="text" class="form-control"  value="<?php echo $mostrar['apellido1_usu']; ?>"  pattern="[a-z]{1,15}" name="apellido1" placeholder="Ingrese primer apellido" required=""/>
+                                        <input type="text" class="form-control" pattern="[a-z]{1,15}"value="<?php echo $mostrar['apellido1_cli']; ?>" name="apellido1" placeholder="Ingrese primer apellido" required=""/>
                                     </div>
                                     <div class="form-group">
                                         <label for="inputNom">Segundo apellido</label>
-                                        <input type="text" class="form-control"  value="<?php echo $mostrar['apellido2_usu']; ?>"  pattern="[a-z]{1,15}" name="apellido2" placeholder="Ingrese segundo apellido" />
+                                        <input type="text" class="form-control"pattern="[a-z]{1,15}" value="<?php echo $mostrar['apellido2_cli']; ?>" name="apellido2" placeholder="Ingrese segundo apellido"/>
                                     </div>
                                     <div class="form-group">
                                         <label for="inputPre">Telefono</label>
-                                        <input type="number" class="form-control"  value="<?php echo $mostrar['telefono_usu']; ?>" name="telefono" maxlength="10" placeholder="Ingrese telefono"  required=""/>
+                                        <input type="number" class="form-control"  value="<?php echo $mostrar['telefono_cli']; ?>" name="telefono" placeholder="Ingrese telefono" required=""/>
                                     </div>
                                     <div class="form-group">
-                                        <label for="inputMessage">Contraseña</label>
-                                        <input type="password" class="form-control"  value="<?php echo $mostrar['clave_usu']; ?>" name="pass" placeholder="Ingrese contraseña" required=""/>
+                                        <label for="inputMessage">Direccion</label>
+                                        <input type="text" class="form-control"  value="<?php echo $mostrar['direccion_cli']; ?>" name="direccion" placeholder="Ingrese direccion" />
                                     </div>
                                     
-                                    <div class="form-group">
-                                        <label for="asig_id">estado</label>
-                                        <select class="form-control" name="estado" id="id_prov">
-                                            <option value="SI">SI</option>
-                                            <option value="NO">NO</option>
-                                            
-                                        </select>
-                                    </div>
+
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                                <input type="submit" class="btn btn-primary submitBtn" name="btnregistrar" value="Actualizar" onClick="javascript: return confirm('¿Deseas registrar este empleado?');">    
+                                <input type="submit" class="btn btn-primary submitBtn" name="btnregistrar" value="Actualizar" onClick="javascript: return confirm('¿Deseas registrar este cliente?');">    
                             </div>
                             </form>
                             </div>
@@ -199,59 +191,51 @@ $cargo=$_SESSION['user_cargo'];
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLongTitle">Añadir empleado</h5>
+                                <h5 class="modal-title" id="exampleModalLongTitle">Añadir cliente</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
                             <div class="modal-body">
                             <p class="statusMsg"></p>
-                                <form action="Modal/agregarEmp.php" method="POST" role="form">
+                                <form action="Modal/agregarCli.php" method="POST" role="form">
                                     <div class="form-group">
                                         <label for="inputCod">Documento</label>
-                                        <input type="number" class="form-control" value=""  name="txtdoc" placeholder="Ingresa codigo producto"  required=""/>
-                                        <input type="hidden" class="form-control"  name="id_cargo" value="2"/>
+                                        <input type="number" class="form-control" name="id_doc" placeholder="Ingresa documento"  required=""/>
 
                                     </div>
                                     <div class="form-group">
                                         <label for="inputNom">Primer nombre</label>
-                                        <input type="text" class="form-control"  name="nombre1"  pattern="[a-z]{1,15}" placeholder="Ingrese primer nombre" required=""/>
+                                        <input type="text" class="form-control"  name="nombre1" placeholder="Ingrese primer nombre"pattern="[a-z]{1,15}"required=""/>
                                     </div>
                                     <div class="form-group">
                                         <label for="inputNom">Segundo nombre</label>
-                                        <input type="text" class="form-control"   name="nombre2"  pattern="[a-z]{1,15}" placeholder="Ingrese segundo nombre" />
+                                        <input type="text" class="form-control"  pattern="[a-z]{1,15}"name="nombre2" placeholder="Ingrese segundo nombre" />
                                     </div>
                                     <div class="form-group">
                                         <label for="inputNom">Primer apellido</label>
-                                        <input type="text" class="form-control"  name="apellido1"  pattern="[a-z]{1,15}"  placeholder="Ingrese primer apellido" required=""/>
+                                        <input type="text" class="form-control" pattern="[a-z]{1,15}"name="apellido1" placeholder="Ingrese primer apellido" required=""/>
                                     </div>
                                     <div class="form-group">
                                         <label for="inputNom">Segundo apellido</label>
-                                        <input type="text" class="form-control"  name="apellido2"  pattern="[a-z]{1,15}" placeholder="Ingrese segundo apellido" />
+                                        <input type="text" class="form-control" pattern="[a-z]{1,15}" name="apellido2" placeholder="Ingrese segundo apellido" />
                                     </div>
                                     <div class="form-group">
                                         <label for="inputPre">Telefono</label>
-                                        <input type="number" class="form-control"  name="telefono" placeholder="Ingrese telefono" maxlength="10"   required=""/>
+                                        <input type="number" class="form-control"  name="telefono" placeholder="Ingrese telefono" required=""/>
                                     </div>
                                     <div class="form-group">
-                                        <label for="inputMessage">Contraseña</label>
-                                        <input type="password" class="form-control"  name="pass" placeholder="Ingrese contraseña" required=""/>
+                                        <label for="inputMessage">direccion</label>
+                                        <input type="text" class="form-control"  name="direccion" placeholder="Ingrese direccion" />
                                     </div>
                                     
-                                    <div class="form-group">
-                                        <label for="asig_id">estado</label>
-                                        <select class="form-control" name="estado" id="id_prov">
-                                            <option value="SI">SI</option>
-                                            <option value="NO">NO</option>
-                                            
-                                        </select>
-                                    </div>
+
                                        
 
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                                <input type="submit" class="btn btn-primary submitBtn" name="btnregistrar" value="Registrar" onClick="javascript: return confirm('¿Deseas registrar este empleado?');">
+                                <input type="submit" class="btn btn-primary submitBtn" name="btnregistrar" value="Registrar" onClick="javascript: return confirm('¿Deseas registrar este cliente?');">
                             </div>
                             </form>
                             </div>
@@ -263,7 +247,6 @@ $cargo=$_SESSION['user_cargo'];
 
             </div>
             <!-- End of Main Content -->
-
 
 
             <?php include_once("componentes/footer.php");?>

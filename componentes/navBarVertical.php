@@ -46,7 +46,7 @@ $cargo=$_SESSION['user_cargo'];
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Administrar:</h6>
-                        <a class="collapse-item" href="buttons.html">Agregar Usuarios</a>
+                        <a class="collapse-item" href="./empleados2.php">Agregar Usuarios</a>
                         <a class="collapse-item" href="cards.html">Consultar Usuarios</a>
                         <a class="collapse-item" href="cards.html">Actualizar Usuarios</a>
                     </div>
@@ -64,13 +64,13 @@ $cargo=$_SESSION['user_cargo'];
                 <a class="nav-link collapsed" href="../empleados2.php" data-toggle="collapse" data-target="#collapseUtilities"
                     aria-expanded="true" aria-controls="collapseUtilities">
                     <i class="fa fa-users" aria-hidden="true"></i>
-                    <span>Empleados</span>
+                    <span>Clientes</span>
                 </a>
                 <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Administrar:</h6>
-                        <a class="collapse-item" href="./empleados2.php">Agregar Clientes</a>
+                        <a class="collapse-item" href="./clientes.php">Agregar Clientes</a>
                         <a class="collapse-item" href="cards.html">Consultar Clientes</a>
                         <a class="collapse-item" href="cards.html">Actualizar Clientes</a>
                     </div>

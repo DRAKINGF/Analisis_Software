@@ -31,9 +31,9 @@ else
 }
 else
 {
-		echo "<script> alert('No puedes registrar este usuario: $usuario');window.location= '../tables.php' </script>";
+		echo "<script> alert('No puedes registrar este usuario: $usuario');window.location= '../tables2.php' </script>";
 }
-header("Location:../tables.php");
+header("Location:../tables2.php");
 	
 
 ?>
