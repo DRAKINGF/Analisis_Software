@@ -128,7 +128,7 @@ $cargo=$_SESSION['user_cargo'];
                                 <form action="Modal/modificarEmp.php" method="POST" role="form">
                                 <div class="form-group">
                                         <label for="inputCod">Documento</label>
-                                        <input type="integer" class="form-control" value="<?php echo $mostrar['documento_usu']; ?>" name="txtdoc" placeholder="Ingresa codigo producto" readonly required=""/>
+                                        <input type="integer" class="form-control" value="<?php echo $mostrar['documento_usu']; ?>" name="txtdoc" placeholder="Ingresa documento empleado"  required=""/>
                                         <input type="hidden" class="form-control"  name="id_cargo" value="2"/>
 
                                     </div>
@@ -209,7 +209,7 @@ $cargo=$_SESSION['user_cargo'];
                                 <form action="Modal/agregarEmp.php" method="POST" role="form">
                                     <div class="form-group">
                                         <label for="inputCod">Documento</label>
-                                        <input type="number" class="form-control" value=""  name="txtdoc" placeholder="Ingresa codigo producto"  required=""/>
+                                        <input type="number" class="form-control" value=""  name="txtdoc" placeholder="Ingresa documento empleado"  required=""/>
                                         <input type="hidden" class="form-control"  name="id_cargo" value="2"/>
 
                                     </div>

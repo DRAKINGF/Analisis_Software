@@ -6,7 +6,74 @@ include_once("componentes/header.php");
 include_once("componentes/navBarVertical.php"); 
 include_once("componentes/navBar.php");
 $cargo=$_SESSION['user_cargo']; 
-
+if(!empty($_GET["accion"])) 
+{
+switch($_GET["accion"]) 
+{
+	case "agregar":
+		if(!empty($_POST["txtcantidad"])) 
+		{
+			$codproducto = $usar_db->vaiQuery("SELECT * FROM producto WHERE cod_producto='" . $_GET["cod_producto"] . "'");
+			$items_array = array($codproducto[0]["cod_producto"]=>array(
+			'vai_nom'		=>$codproducto[0]["nombre"], 
+			'vai_cod'		=>$codproducto[0]["cod_producto"], 
+			'txtcantidad'	=>$_POST["txtcantidad"], 
+			'vai_pre'		=>$codproducto[0]["precio"], 
+			));
+			
+			if(!empty($_SESSION["items_carrito"])) 
+			{
+				if(in_array($codproducto[0]["cod_producto"],
+				array_keys($_SESSION["items_carrito"]))) 
+				{
+					foreach($_SESSION["items_carrito"] as $i => $j) 
+					{
+							if($codproducto[0]["cod_producto"] == $i) 
+							{
+								if(empty($_SESSION["items_carrito"][$i]["txtcantidad"])) 
+								{
+									$_SESSION["items_carrito"][$i]["txtcantidad"] = 0;
+								}
+								$_SESSION["items_carrito"][$i]["txtcantidad"] += $_POST["txtcantidad"];
+							}
+					}
+				} else 
+				{
+					$_SESSION["items_carrito"] = array_merge($_SESSION["items_carrito"],$items_array);
+				}
+			} 
+			else 
+			{
+				$_SESSION["items_carrito"] = $items_array;
+			}
+		}
+	break;
+	case "eliminar":
+		if(!empty($_SESSION["items_carrito"])) 
+		{
+			foreach($_SESSION["items_carrito"] as $i => $j) 
+			{
+				if($_GET["eliminarcode"] == $i)
+				{
+					unset($_SESSION["items_carrito"][$i]);	
+				}			
+				if(empty($_SESSION["items_carrito"]))
+				{
+					unset($_SESSION["items_carrito"]);
+				}
+			}
+		}
+	break;
+	case "vacio":
+		unset($_SESSION["items_carrito"]);
+	break;	
+	case "pagar":
+	echo "<script> alert('Gracias por su compra - VaidrollTeam');window.location= 'productos.php' </script>";
+		unset($_SESSION["items_carrito"]);
+	
+	break;	
+}
+}
 
 ?>
 
@@ -139,7 +206,7 @@ $cargo=$_SESSION['user_cargo'];
                                             </a>
                                             -->
                                           </td>
-       
+
                     <!-- Modal actualizar empleado-->
                     <div class="modal fade" id="formActulizar<?php echo $mostrar['codigo_prod']; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
                         <div class="modal-dialog" role="document">

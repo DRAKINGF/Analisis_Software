@@ -1,7 +1,9 @@
 
 // Call the dataTables jQuery plugin
+/*
 $(document).ready(function(){
   $('#dataTable').DataTable({
+
     "searching": false,
     "order": [[0, "asc"]],
     "language":{
@@ -18,6 +20,8 @@ $(document).ready(function(){
         "previous":   "Anterior"
       },		
     }
+
+
   });	
 });	
 
@@ -71,7 +75,7 @@ $( '#btnbuscar' ).click(function() {
       });
   });
 });*/
-
+/*
 function textBox(){
   var name = $("#nombre").val(); //Guardas el valor del input
   setTimeout(() => {
@@ -89,3 +93,5 @@ function guardar(idProducto,codProducto,nomProducto,stockProdcuto,preUniProducto
   document.getElementById('id_admin1').value = idAdmin;
   document.getElementById('id_prov1').value = idProveedor;
 }
+
+*/

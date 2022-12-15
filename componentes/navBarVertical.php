@@ -113,7 +113,7 @@ $cargo=$_SESSION['user_cargo'];
               -->
             <!-- Nav Item - Charts -->
             <li class="nav-item">
-                <a class="nav-link" href="charts.html">
+                <a class="nav-link" href="./fac.php">
                 <i class="fa fa-calculator" aria-hidden="true"></i>
                     <span>Facturacion</span></a>
             </li>

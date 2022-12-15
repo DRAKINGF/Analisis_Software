@@ -43,6 +43,13 @@
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
+    <!--
+    <script src="vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+     -->
+    <!-- Page level custom scripts -->
+       <!-- <script src="js/demo/datatables-demo.js"></script>-->
+
     <!-- Core plugin JavaScript-->
     <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
 
@@ -55,6 +62,24 @@
     <!-- Page level custom scripts -->
     <script src="js/demo/chart-area-demo.js"></script>
     <script src="js/demo/chart-pie-demo.js"></script>
+
+
+
+    <script src="jquery/jquery-3.3.1.min.js"></script>
+    <script src="popper/popper.min.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+      
+    <!-- datatables JS -->
+    <script type="text/javascript" src="datatables/datatables.min.js"></script>    
+     
+    <!-- para usar botones en datatables JS -->  
+    <script src="datatables/pdfmake-0.1.36/vfs_fonts.js"></script>
+    <script src="datatables/Buttons-1.5.6/js/buttons.html5.min.js"></script>
+     
+    <!-- código JS propìo-->    
+    <script type="text/javascript" src="mainn.js"></script>  
+    <script type="text/javascript" src="m1.js"></script>  
+
 
 </body>
 
